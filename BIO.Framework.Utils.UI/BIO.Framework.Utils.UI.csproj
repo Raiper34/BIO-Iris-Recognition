@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E51816EF-5C73-455F-B42F-4D616A2CD0F8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BIO.Framework.Utils.UI</RootNamespace>
+    <AssemblyName>BIO.Framework.Utils.UI</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\BIO.Framework.Utils.UI.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\BIO.Framework.Utils.UI.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph, Version=5.1.5.28844, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalLibs\ZedGraph\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\RecordSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Database\RecordSelector.Designer.cs">
+      <DependentUpon>RecordSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\Results\BiometricAlgorithmStatisticsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Evaluation\Results\BiometricAlgorithmStatisticsControl.Designer.cs">
+      <DependentUpon>BiometricAlgorithmStatisticsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\Results\BiometricAlgorithmDetailResultGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Evaluation\Results\BiometricAlgorithmDetailResultGraph.Designer.cs">
+      <DependentUpon>BiometricAlgorithmDetailResultGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\Results\BiometricAlgorithmGenuineImpostorResultGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Evaluation\Results\BiometricAlgorithmGenuineImpostorResultGraph.Designer.cs">
+      <DependentUpon>BiometricAlgorithmGenuineImpostorResultGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\Results\BiometricAlgorithmsDETGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Evaluation\Results\BiometricAlgorithmsDETGraph.Designer.cs">
+      <DependentUpon>BiometricAlgorithmsDETGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\Results\BiometricAlgorithmsROCGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Evaluation\Results\BiometricAlgorithmsROCGraph.Designer.cs">
+      <DependentUpon>BiometricAlgorithmsROCGraph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\Results\MultipleBiometricAlgorithmsDataVisualizer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Evaluation\Results\MultipleBiometricAlgorithmsDataVisualizer.Designer.cs">
+      <DependentUpon>MultipleBiometricAlgorithmsDataVisualizer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\Results\ResultsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Evaluation\Results\ResultsForm.Designer.cs">
+      <DependentUpon>ResultsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\Results\ResultsViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Evaluation\Results\ResultsViewer.Designer.cs">
+      <DependentUpon>ResultsViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluation\Results\SingleBiometricAlgorithmDataVisualizer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Evaluation\Results\SingleBiometricAlgorithmDataVisualizer.Designer.cs">
+      <DependentUpon>SingleBiometricAlgorithmDataVisualizer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BIO.Framework\BIO.Framework.csproj">
+      <Project>{B51EA0A6-B2B0-4D65-911F-C21BA2AA8CB1}</Project>
+      <Name>BIO.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Database\RecordSelector.resx">
+      <DependentUpon>RecordSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Evaluation\Results\BiometricAlgorithmStatisticsControl.resx">
+      <DependentUpon>BiometricAlgorithmStatisticsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Evaluation\Results\BiometricAlgorithmGenuineImpostorResultGraph.resx">
+      <DependentUpon>BiometricAlgorithmGenuineImpostorResultGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Evaluation\Results\BiometricAlgorithmsDETGraph.resx">
+      <DependentUpon>BiometricAlgorithmsDETGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Evaluation\Results\BiometricAlgorithmsROCGraph.resx">
+      <DependentUpon>BiometricAlgorithmsROCGraph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Evaluation\Results\ResultsForm.resx">
+      <DependentUpon>ResultsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Evaluation\Results\ResultsViewer.resx">
+      <DependentUpon>ResultsViewer.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

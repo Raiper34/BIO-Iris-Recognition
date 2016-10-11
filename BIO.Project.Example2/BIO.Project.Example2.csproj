@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8C44B1F2-7AA4-4283-841F-764A408EC2E8}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BIO.Project.Example2</RootNamespace>
+    <AssemblyName>BIO.Project.Example2</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accord.Math, Version=2.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalLibs\Accord.NET\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics, Version=2.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalLibs\Accord.NET\Accord.Statistics.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV">
+      <HintPath>..\ExternalLibs\Emgu\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI">
+      <HintPath>..\ExternalLibs\Emgu\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util">
+      <HintPath>..\ExternalLibs\Emgu\Emgu.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlgorithmPCA\FaceProcessingBlockComponents.cs" />
+    <Compile Include="AlgorithmPCA\Training.cs" />
+    <Compile Include="FaceDatabaseCreator.cs" />
+    <Compile Include="FaceEvaluationSettings.cs" />
+    <Compile Include="FaceFeatureVectorComparator.cs" />
+    <Compile Include="AlgorithmSimple\FaceFeatureVectorExtractor.cs" />
+    <Compile Include="FaceInputDataCreator.cs" />
+    <Compile Include="AlgorithmSimple\FaceProcessingBlockComponents.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="ProjectSettings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Statistical\DoubleArrayExtractorStatisticalWrapper.cs" />
+    <Compile Include="Statistical\PCA.cs" />
+    <Compile Include="Statistical\StatisticalMethod.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BIO.Framework.Extensions.Emgu\BIO.Framework.Extensions.Emgu.csproj">
+      <Project>{57CC9045-0B40-4644-9309-DD3441D8220E}</Project>
+      <Name>BIO.Framework.Extensions.Emgu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIO.Framework.Extensions.ZedGraph\BIO.Framework.Extensions.ZedGraph.csproj">
+      <Project>{3A51CE79-DDD3-493C-A11A-8677E2657EF6}</Project>
+      <Name>BIO.Framework.Extensions.ZedGraph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIO.Framework.Utils.Console\BIO.Framework.Utils.Console.csproj">
+      <Project>{CC746032-3A59-4201-AF01-8DAC89192053}</Project>
+      <Name>BIO.Framework.Utils.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIO.Framework.Utils.UI\BIO.Framework.Utils.UI.csproj">
+      <Project>{E51816EF-5C73-455F-B42F-4D616A2CD0F8}</Project>
+      <Name>BIO.Framework.Utils.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIO.Framework\BIO.Framework.csproj">
+      <Project>{B51EA0A6-B2B0-4D65-911F-C21BA2AA8CB1}</Project>
+      <Name>BIO.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIO.Project\BIO.Project.csproj">
+      <Project>{0DA82CBC-69C7-41B9-B3FD-285DF1B68E72}</Project>
+      <Name>BIO.Project</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

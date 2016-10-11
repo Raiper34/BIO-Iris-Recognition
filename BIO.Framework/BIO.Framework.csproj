@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B51EA0A6-B2B0-4D65-911F-C21BA2AA8CB1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BIO.Framework</RootNamespace>
+    <AssemblyName>BIO.Framework</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\BIO.Framework.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\BIO.Framework.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="StructureMap">
+      <HintPath>..\ExternalLibs\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\BiometricSystem\IDecisionMakerResult.cs" />
+    <Compile Include="Core\BiometricSystem\IDecisionMaker.cs" />
+    <Compile Include="Core\BiometricSystem\IIdentificationResult.cs" />
+    <Compile Include="Core\BiometricSystem\IBiometricSystemResult.cs" />
+    <Compile Include="Core\BiometricSystem\IBiometricSystem.cs" />
+    <Compile Include="Core\BiometricSystem\IVerificationResult.cs" />
+    <Compile Include="Core\Block\IScoreFusionBlock.cs" />
+    <Compile Include="Core\Evaluation\BiometricSystem\IBiometricSystemEvaluator.cs" />
+    <Compile Include="Core\Evaluation\BiometricSystem\IBiometricSystemEvaluatorSettings.cs" />
+    <Compile Include="Core\Evaluation\Block\IBlockEvaluatorSettings.cs" />
+    <Compile Include="Core\Evaluation\IEvaluator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\Standard\BiometricSystem\BiometricSystemSettings.cs" />
+    <Compile Include="Extensions\Standard\BiometricSystem\BiometricSystemResult.cs" />
+    <Compile Include="Extensions\Standard\BiometricSystem\IdentificationResult.cs" />
+    <Compile Include="Extensions\Standard\BiometricSystem\DecisionMaker.cs" />
+    <Compile Include="Extensions\Standard\BiometricSystem\DecisionMakerResult.cs" />
+    <Compile Include="Extensions\Standard\BiometricSystem\DecisionMakerSettings.cs" />
+    <Compile Include="Extensions\Standard\BiometricSystem\VerificationResult.cs" />
+    <Compile Include="Core\Block\IMultipleInputDataProcessingBlock.cs" />
+    <Compile Include="Core\Block\IMatchingBlock.cs" />
+    <Compile Include="Core\Block\IBlock.cs" />
+    <Compile Include="Core\Block\ITemplateExtractingBlock.cs" />
+    <Compile Include="Extensions\Standard\BiometricSystem\BiometricSystem.cs" />
+    <Compile Include="Extensions\Standard\BiometricSystem\BiometricSystemCreator.cs" />
+    <Compile Include="Extensions\Standard\Comparator\DoubleArrayFeatureVectorComaprator.cs" />
+    <Compile Include="Extensions\Standard\Comparator\SquareErrorDoubleArrayFeatureVectorComparator.cs" />
+    <Compile Include="Extensions\Standard\Evaluation\Block\BlockEvaluationSettings.cs" />
+    <Compile Include="Extensions\Standard\Evaluation\Evaluators.cs" />
+    <Compile Include="Core\BiometricSystem\IBiometricSystemSettings.cs" />
+    <Compile Include="Core\Database\Subsets\IDatabaseSubsetCreator.cs" />
+    <Compile Include="Extensions\Standard\Evaluation\Block\BlockEvaluator.cs" />
+    <Compile Include="Core\Evaluation\Block\IBlockEvaluator.cs" />
+    <Compile Include="Core\Evaluation\IEvaluatorSettings.cs" />
+    <Compile Include="Core\Block\IInputDataProcessingBlock.cs" />
+    <Compile Include="Core\IProgressReporter.cs" />
+    <Compile Include="Core\Comparator\MatchingScore.cs" />
+    <Compile Include="Core\Progress.cs" />
+    <Compile Include="Core\Comparator\IComparator.cs" />
+    <Compile Include="Core\Database\TemplateDatabase\TemplateDatabase.cs" />
+    <Compile Include="Core\Database\IDatabaseCreator.cs" />
+    <Compile Include="Core\Database\IRecord.cs" />
+    <Compile Include="Core\Evaluation\Results\Persistence\CompressedResultsPersistence.cs" />
+    <Compile Include="Core\Evaluation\Results\Persistence\BinaryResultsSerializer.cs" />
+    <Compile Include="Core\Evaluation\Results\Persistence\XmlResultsSerializer.cs" />
+    <Compile Include="Core\Evaluation\Results\Persistence\IResultsPersistence.cs" />
+    <Compile Include="Core\Evaluation\Results\Persistence\IResultsSerializer.cs" />
+    <Compile Include="Core\Evaluation\Results\Visualization\IResultsGraphVisualizer.cs" />
+    <Compile Include="Core\Evaluation\Results\Visualization\IResultsVisualizer.cs" />
+    <Compile Include="Core\Evaluation\Results\Results.cs" />
+    <Compile Include="Core\Evaluation\Results\Result.cs" />
+    <Compile Include="Core\Evaluation\Results\Persistence\ResultsPersistence.cs" />
+    <Compile Include="Core\Comparator\IFeatureVectorComparator.cs" />
+    <Compile Include="Core\Evaluation\Results\Statistics.cs" />
+    <Compile Include="Core\FeatureVector\IFeatureVectorExtractor.cs" />
+    <Compile Include="Core\Database\TemplateDatabase\TemplateRecord.cs" />
+    <Compile Include="Core\Database\BiometricID.cs" />
+    <Compile Include="Core\Database\Record.cs" />
+    <Compile Include="Core\Database\RecordSelection.cs" />
+    <Compile Include="Core\Database\Database.cs" />
+    <Compile Include="Core\FeatureVector\IFeatureVector.cs" />
+    <Compile Include="Core\Template\Persistence\IPersistentTemplateCreator.cs" />
+    <Compile Include="Core\Template\Persistence\IPersistentTemplate.cs" />
+    <Compile Include="Core\Template\ITemplate.cs" />
+    <Compile Include="Core\Template\TemplateInfo.cs" />
+    <Compile Include="Core\Template\TemplateSerializer.cs" />
+    <Compile Include="Extensions\Standard\FeatureVector\DoubleArrayFeatureVector.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\Training\Blocks\ITrainableScoreContainer.cs" />
+    <Compile Include="Extensions\Training\Blocks\ITrainableScoreFusionBlock.cs" />
+    <Compile Include="Extensions\Training\ITrainable.cs" />
+    <Compile Include="Extensions\Standard\Block\MultipleInputDataProcessingBlock.cs" />
+    <Compile Include="Extensions\Standard\Block\IInputDataProcessingBlockComponents.cs" />
+    <Compile Include="Extensions\Standard\Block\InputDataProcessingBlockComponents.cs" />
+    <Compile Include="Extensions\Standard\Block\InputDataProcessingBlock.cs" />
+    <Compile Include="Extensions\Standard\Comparator\Comparator.cs" />
+    <Compile Include="Extensions\Standard\Comparator\ScoreSelector\MaxScoreSelector.cs" />
+    <Compile Include="Extensions\Standard\Comparator\ScoreSelector\IScoreSelector.cs" />
+    <Compile Include="Extensions\Standard\Comparator\ScoreSelector\MinScoreSelector.cs" />
+    <Compile Include="Extensions\Standard\Comparator\ScoreSelector\ScoreSelector.cs" />
+    <Compile Include="Extensions\Standard\Database\Subsets\TrainTestAndValidationDatabaseSubsetCreator.cs" />
+    <Compile Include="Extensions\Standard\Database\Subsets\DatabaseSubsetCreator.cs" />
+    <Compile Include="Extensions\Standard\Database\Subsets\TemplateAndEvaluationDatabaseSubsetCreator.cs" />
+    <Compile Include="Extensions\Standard\Evaluation\EvaluationSettings.cs" />
+    <Compile Include="Extensions\Standard\Input\IImageInputData.cs" />
+    <Compile Include="Extensions\Standard\Evaluation\Results\StatisticsSummaryResultsPostprocessor.cs" />
+    <Compile Include="Extensions\Standard\Database\InputDatabase\StandardRecord.cs" />
+    <Compile Include="Extensions\Standard\Database\InputDatabase\IStandardRecordData.cs" />
+    <Compile Include="Core\Database\IRecordEnumerable.cs" />
+    <Compile Include="Core\InputData\IInputDataCreator.cs" />
+    <Compile Include="Core\InputData\IInputData.cs" />
+    <Compile Include="Core\Template\ITemplateCreator.cs" />
+    <Compile Include="Extensions\Standard\Database\InputDatabase\StandardRecordData.cs" />
+    <Compile Include="Extensions\Standard\Input\BitmapInputData.cs" />
+    <Compile Include="Extensions\Standard\Input\FileInputData.cs" />
+    <Compile Include="Extensions\Standard\Template\Persistence\MemoryPersistentTemplate.cs" />
+    <Compile Include="Extensions\Standard\Template\Persistence\PersistentTemplateCreator.cs" />
+    <Compile Include="Extensions\Standard\Template\Template.cs" />
+    <Compile Include="Extensions\Standard\Template\TemplateCreator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\SerializableDictionary.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

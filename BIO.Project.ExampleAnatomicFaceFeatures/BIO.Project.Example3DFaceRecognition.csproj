@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5D0B3B28-E5C8-417D-B9A0-CDA87427B383}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BIO.Project.Example3DFaceRecognition</RootNamespace>
+    <AssemblyName>BIO.Project.Example3DFaceRecognition</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>BIO.Project.Example3DFaceRecognition.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Emgu.CV">
+      <HintPath>..\ExternalLibs\Emgu\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util">
+      <HintPath>..\ExternalLibs\Emgu\Emgu.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FaceComparator.cs" />
+    <Compile Include="FaceDatabaseCreator.cs" />
+    <Compile Include="FaceEvaluationSettings.cs" />
+    <Compile Include="FaceFeatureVectorExtractor.cs" />
+    <Compile Include="FaceInputDataCreator.cs" />
+    <Compile Include="FaceProcessingBlockComponents.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="ProjectSettings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BIO.Framework.Extensions.Emgu\BIO.Framework.Extensions.Emgu.csproj">
+      <Project>{57CC9045-0B40-4644-9309-DD3441D8220E}</Project>
+      <Name>BIO.Framework.Extensions.Emgu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIO.Framework.Extensions.ZedGraph\BIO.Framework.Extensions.ZedGraph.csproj">
+      <Project>{3A51CE79-DDD3-493C-A11A-8677E2657EF6}</Project>
+      <Name>BIO.Framework.Extensions.ZedGraph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIO.Framework.Utils.Console\BIO.Framework.Utils.Console.csproj">
+      <Project>{CC746032-3A59-4201-AF01-8DAC89192053}</Project>
+      <Name>BIO.Framework.Utils.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIO.Framework.Utils.UI\BIO.Framework.Utils.UI.csproj">
+      <Project>{E51816EF-5C73-455F-B42F-4D616A2CD0F8}</Project>
+      <Name>BIO.Framework.Utils.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIO.Framework\BIO.Framework.csproj">
+      <Project>{B51EA0A6-B2B0-4D65-911F-C21BA2AA8CB1}</Project>
+      <Name>BIO.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIO.Project\BIO.Project.csproj">
+      <Project>{0DA82CBC-69C7-41B9-B3FD-285DF1B68E72}</Project>
+      <Name>BIO.Project</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
