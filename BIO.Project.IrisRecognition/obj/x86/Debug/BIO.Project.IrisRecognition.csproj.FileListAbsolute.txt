@@ -1,5 +1,3 @@
-C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\obj\x86\Debug\BIO.Project.Example1.exe
-C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\obj\x86\Debug\BIO.Project.Example1.pdb
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\bin\x86\Debug\opencv_calib3d231.dll
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\bin\x86\Debug\opencv_contrib231.dll
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\bin\x86\Debug\opencv_core231.dll
@@ -32,3 +30,5 @@ C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\bin\x86\Debu
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\bin\x86\Debug\BIO.Framework.pdb
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\bin\x86\Debug\BIO.Project.pdb
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\obj\x86\Debug\BIO.Project.IrisRecognition.csprojResolveAssemblyReference.cache
+C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\obj\x86\Debug\BIO.Project.Example1.exe
+C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Project.IrisRecognition\obj\x86\Debug\BIO.Project.Example1.pdb

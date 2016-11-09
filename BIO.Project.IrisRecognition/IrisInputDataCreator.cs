@@ -11,13 +11,11 @@ using BIO.Framework.Extensions.Standard.Database.InputDatabase;
 
 namespace BIO.Project.IrisRecognition
 {
-    public class FaceInputDataCreator :  IInputDataCreator<StandardRecord<StandardRecordData>, EmguGrayImageInputData> {
-        #region IInputDataCreator<StandardRecord<StandardRecordData>,EmguGrayImageInputData> Members
+    public class IrisInputDataCreator :  IInputDataCreator<StandardRecord<StandardRecordData>, EmguGrayImageInputData> {
 
         public EmguGrayImageInputData createInputData(StandardRecord<StandardRecordData> record) {
             return new EmguGrayImageInputData(record.BiometricData.Data);
         }
 
-        #endregion
     }
 }

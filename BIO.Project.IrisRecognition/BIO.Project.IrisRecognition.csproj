@@ -57,15 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FaceBiometricSystem\Extractors\FaceFeatureVectorExtractor3.cs" />
-    <Compile Include="FaceBiometricSystem\Extractors\FaceFeatureVectorExtractor2.cs" />
-    <Compile Include="FaceEvaluationSettings.cs" />
-    <Compile Include="FaceDatabaseCreator.cs" />
-    <Compile Include="FaceBiometricSystem\FaceFeatureVectorComparator.cs" />
-    <Compile Include="FaceBiometricSystem\Extractors\FaceFeatureVectorExtractor1.cs" />
-    <Compile Include="FaceInputDataCreator.cs" />
-    <Compile Include="FaceBiometricSystem\FaceProcessingBlockFused.cs" />
-    <Compile Include="FaceBiometricSystem\FaceProcessingBlockComponents.cs" />
+    <Compile Include="IrisEvaluationSettings.cs" />
+    <Compile Include="IrisDatabaseCreator.cs" />
+    <Compile Include="IrisFeatureVectorComparator.cs" />
+    <Compile Include="IrisFeatureVectorExtractor.cs" />
+    <Compile Include="IrisInputDataCreator.cs" />
+    <Compile Include="IrisProcessingBlockComponents.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

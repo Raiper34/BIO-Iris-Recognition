@@ -11,11 +11,9 @@ using Emgu.CV.UI;
 using BIO.Framework.Core;
 
 
-namespace BIO.Project.IrisRecognition.FaceBiometricSystem {
+namespace BIO.Project.IrisRecognition {
     
-    class FaceFeatureVectorComparator : IFeatureVectorComparator<EmguGrayImageFeatureVector, EmguGrayImageFeatureVector> {
-
-        #region IFeatureVectorComparator<EmguGrayImageFeatureVector,EmguGrayImageFeatureVector> Members
+    class IrisFeatureVectorComparator : IFeatureVectorComparator<EmguGrayImageFeatureVector, EmguGrayImageFeatureVector> {
 
         public MatchingScore computeMatchingScore(EmguGrayImageFeatureVector extracted, EmguGrayImageFeatureVector templated) {
             Image<Gray, byte> m1 = extracted.FeatureVector.Clone();
@@ -54,7 +52,6 @@ namespace BIO.Project.IrisRecognition.FaceBiometricSystem {
             return new MatchingScore(sum);
         }
 
-        #endregion
     }
 
        

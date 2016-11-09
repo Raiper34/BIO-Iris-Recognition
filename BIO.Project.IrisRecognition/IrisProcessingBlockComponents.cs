@@ -8,27 +8,30 @@ using BIO.Framework.Extensions.Standard.Template;
 using BIO.Framework.Core.Comparator;
 using BIO.Framework.Core.FeatureVector;
 
-namespace BIO.Project.IrisRecognition.FaceBiometricSystem {
-    abstract class FaceProcessingBlockComponents : BIO.Framework.Extensions.Standard.Block.InputDataProcessingBlockSettings<
+namespace BIO.Project.IrisRecognition {
+    abstract class IrisProcessingBlockComponents : BIO.Framework.Extensions.Standard.Block.InputDataProcessingBlockSettings<
           EmguGrayImageInputData,
           EmguGrayImageFeatureVector,
           Template<EmguGrayImageFeatureVector>,
           EmguGrayImageFeatureVector
     > {
 
-        public FaceProcessingBlockComponents(string name) : base(name) { 
+        public IrisProcessingBlockComponents(string name) : base(name) { 
         }
 
         protected abstract IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> createFeatureVectorExtractor();
 
+        //Extractor
         protected override IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> createTemplatedFeatureVectorExtractor() {
             return this.createFeatureVectorExtractor();
         }
 
+        //Extractor
         protected override IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> createEvaluationFeatureVectorExtractor() {
             return this.createFeatureVectorExtractor();
         }
         
+        //Comparator
         protected override Framework.Core.Comparator.IComparator<EmguGrayImageFeatureVector, Template<EmguGrayImageFeatureVector>, EmguGrayImageFeatureVector> createComparator() {
             return new BIO.Framework.Extensions.Standard.Comparator.Comparator<EmguGrayImageFeatureVector, Template<EmguGrayImageFeatureVector>, EmguGrayImageFeatureVector>(
                 this.createFeatureVectorComparator(),
@@ -36,45 +39,25 @@ namespace BIO.Project.IrisRecognition.FaceBiometricSystem {
             );
         }
 
+        //Comparator
         private IFeatureVectorComparator<EmguGrayImageFeatureVector, EmguGrayImageFeatureVector> createFeatureVectorComparator() {
-            return new FaceFeatureVectorComparator();
+            return new IrisFeatureVectorComparator();
         }
 
+        //Selector
         private Framework.Extensions.Standard.Comparator.IScoreSelector createScoreSelector() {
             return new BIO.Framework.Extensions.Standard.Comparator.MinScoreSelector();
         }
     }
 
-    class FaceProcessingBlockComponents1 : FaceProcessingBlockComponents {
+    class IrisProcessingBlockComponents1 : IrisProcessingBlockComponents {
 
-        public FaceProcessingBlockComponents1() 
-            : base("alg_1") { 
+        public IrisProcessingBlockComponents1() 
+            : base("Iris Recognition 1") { 
         }
 
         protected override IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> createFeatureVectorExtractor() {
-            return new FaceFeatureVectorExtractor1();
-        }
-    }
-
-    class FaceProcessingBlockComponents2 : FaceProcessingBlockComponents {
-
-        public FaceProcessingBlockComponents2()
-            : base("alg_2") {
-        }
-
-        protected override IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> createFeatureVectorExtractor() {
-            return new FaceFeatureVectorExtractor2();
-        }
-    }
-
-    class FaceProcessingBlockComponents3 : FaceProcessingBlockComponents {
-
-        public FaceProcessingBlockComponents3()
-            : base("alg_3") {
-        }
-
-        protected override IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> createFeatureVectorExtractor() {
-            return new FaceFeatureVectorExtractor3();
+            return new IrisFeatureVectorExtractor();
         }
     }
 }

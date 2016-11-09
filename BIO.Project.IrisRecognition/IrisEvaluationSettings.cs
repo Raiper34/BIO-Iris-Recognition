@@ -8,34 +8,23 @@ using BIO.Framework.Extensions.Standard.Evaluation.Block;
 
 namespace BIO.Project.IrisRecognition
 {
-    class FaceEvaluationSettings : 
+    class IrisEvaluationSettings : 
         BlockEvaluationSettings<
         StandardRecord<StandardRecordData>, //standard database record
         EmguGrayImageInputData
     > {
 
-        public FaceEvaluationSettings() {
+        public IrisEvaluationSettings() {
             
             {
-                var value = new FaceBiometricSystem.FaceProcessingBlockComponents1();
+                var value = new IrisProcessingBlockComponents1();
                 this.addBlockToEvaluation(value.createBlock());
-            }
-            {
-                var value = new FaceBiometricSystem.FaceProcessingBlockComponents2();
-                this.addBlockToEvaluation(value.createBlock());
-            }
-            {
-                var value = new FaceBiometricSystem.FaceProcessingBlockComponents3();
-                this.addBlockToEvaluation(value.createBlock());
-            }
-            {
-                this.addBlockToEvaluation(new FaceBiometricSystem.FaceProcessingBlockFused());
             }
             
         }
 
         protected override Framework.Core.InputData.IInputDataCreator<StandardRecord<StandardRecordData>, EmguGrayImageInputData> createInputDataCreator() {
-            return new FaceInputDataCreator();
+            return new IrisInputDataCreator();
         }
     }
 }

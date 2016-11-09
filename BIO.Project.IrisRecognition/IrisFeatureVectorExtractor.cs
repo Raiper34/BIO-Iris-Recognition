@@ -13,17 +13,14 @@ using BIO.Framework.Core.FeatureVector;
 
 namespace BIO.Project.IrisRecognition
 {
-    class FaceFeatureVectorExtractor3 : IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> {
+    class IrisFeatureVectorExtractor : IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> {
         #region IFeatureVectorExtractor<EmguGrayImageInputData,EmguGrayImageFeatureVector> Members
 
         public EmguGrayImageFeatureVector extractFeatureVector(EmguGrayImageInputData input) {
             
             Image<Gray, byte> smaller = input.Image.Resize(0.15, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
 
-            smaller._SmoothGaussian(3);
-            smaller._EqualizeHist();
-            
-
+           
             EmguGrayImageFeatureVector fv = new EmguGrayImageFeatureVector(new System.Drawing.Size(smaller.Width, smaller.Height));
 
             fv.FeatureVector = smaller.Copy();
