@@ -29,7 +29,7 @@ namespace BIO.Project.IrisRecognition
                 string [] parts = f.Name.Split(new char [] {'.'},  StringSplitOptions.RemoveEmptyEntries);
 
                 BiometricID bioID = new BiometricID(parts[0], "iris");
-                StandardRecordData data = new StandardRecordData(f.FullName);
+                StandardRecordData data = new StandardRecordData(f.FullName); // !!!!!!!!!!!!! OWN RECORD MAYBE !!!!!!!!!!!!!!!!!!!!!
                 StandardRecord<StandardRecordData> record = new StandardRecord<StandardRecordData>(f.Name, bioID, data);
 
                 database.addRecord(record);

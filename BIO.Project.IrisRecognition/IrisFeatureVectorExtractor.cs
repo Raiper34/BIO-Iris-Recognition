@@ -14,7 +14,6 @@ using BIO.Framework.Core.FeatureVector;
 namespace BIO.Project.IrisRecognition
 {
     class IrisFeatureVectorExtractor : IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> {
-        #region IFeatureVectorExtractor<EmguGrayImageInputData,EmguGrayImageFeatureVector> Members
 
         public EmguGrayImageFeatureVector extractFeatureVector(EmguGrayImageInputData input) {
             
@@ -29,6 +28,5 @@ namespace BIO.Project.IrisRecognition
             return fv;
         }
 
-        #endregion
     }
 }

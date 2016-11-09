@@ -20,7 +20,9 @@ namespace BIO.Project.IrisRecognition
                 var value = new IrisProcessingBlockComponents1();
                 this.addBlockToEvaluation(value.createBlock());
             }
-            
+
+            // !!!!!!!!!!!!! NEW PROCESSING BLOCKS HERE !!!!!!!!!!!!!!!!!!!!!
+
         }
 
         protected override Framework.Core.InputData.IInputDataCreator<StandardRecord<StandardRecordData>, EmguGrayImageInputData> createInputDataCreator() {

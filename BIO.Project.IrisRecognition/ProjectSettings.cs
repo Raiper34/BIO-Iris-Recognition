@@ -18,7 +18,7 @@ namespace BIO.Project.IrisRecognition
         }
 
         public override Framework.Core.Database.IDatabaseCreator<StandardRecord<StandardRecordData>> getDatabaseCreator() {
-            return new IrisDatabaseCreator(@"d:\db\face\2D\JAFFE");
+            return new IrisDatabaseCreator(@"d:\db\face\2D\JAFFE"); // !!!!!!!!!!!!! PATH TO PICTURES FOLDER !!!!!!!!!!!!!!!!!!!!!
         }
 
         protected override Framework.Core.Evaluation.Block.IBlockEvaluatorSettings<StandardRecord<StandardRecordData>, EmguGrayImageInputData> getEvaluatorSettings() {
