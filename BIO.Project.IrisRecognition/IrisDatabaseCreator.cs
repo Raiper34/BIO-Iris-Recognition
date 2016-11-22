@@ -23,7 +23,7 @@ namespace BIO.Project.IrisRecognition
             Framework.Core.Database.Database<StandardRecord<StandardRecordData>> database = new Framework.Core.Database.Database<StandardRecord<StandardRecordData>>();
 
             DirectoryInfo di = new DirectoryInfo(this.databasePath);
-            FileInfo[] files = di.GetFiles("*.tiff");
+            FileInfo[] files = di.GetFiles("*.bmp");
             foreach (FileInfo f in files) {
 
                 string [] parts = f.Name.Split(new char [] {'.'},  StringSplitOptions.RemoveEmptyEntries);
