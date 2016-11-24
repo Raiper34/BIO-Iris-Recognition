@@ -1,0 +1,6 @@
+C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\bin\Debug\BIO.Framework.Utils.Console.dll
+C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\bin\Debug\BIO.Framework.Utils.Console.pdb
+C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\bin\Debug\BIO.Framework.dll
+C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\bin\Debug\BIO.Framework.pdb
+C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\obj\Debug\BIO.Framework.Utils.Console.dll
+C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\obj\Debug\BIO.Framework.Utils.Console.pdb
