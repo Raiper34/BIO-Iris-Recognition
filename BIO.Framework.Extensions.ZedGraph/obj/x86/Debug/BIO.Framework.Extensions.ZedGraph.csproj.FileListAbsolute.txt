@@ -6,3 +6,11 @@ C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\bin\x8
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\obj\x86\Debug\BIO.Framework.Extensions.ZedGraph.csprojResolveAssemblyReference.cache
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\obj\x86\Debug\BIO.Framework.Extensions.ZedGraph.dll
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\obj\x86\Debug\BIO.Framework.Extensions.ZedGraph.pdb
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\bin\x86\Debug\BIO.Framework.Extensions.ZedGraph.dll
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\bin\x86\Debug\BIO.Framework.Extensions.ZedGraph.pdb
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\bin\x86\Debug\BIO.Framework.dll
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\bin\x86\Debug\ZedGraph.dll
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\bin\x86\Debug\BIO.Framework.pdb
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\obj\x86\Debug\BIO.Framework.Extensions.ZedGraph.csprojResolveAssemblyReference.cache
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\obj\x86\Debug\BIO.Framework.Extensions.ZedGraph.dll
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Extensions.ZedGraph\obj\x86\Debug\BIO.Framework.Extensions.ZedGraph.pdb

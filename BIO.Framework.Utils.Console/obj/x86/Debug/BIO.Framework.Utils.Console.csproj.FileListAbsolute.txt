@@ -5,3 +5,10 @@ C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\bin\x86\Debu
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\obj\x86\Debug\BIO.Framework.Utils.Console.csprojResolveAssemblyReference.cache
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\obj\x86\Debug\BIO.Framework.Utils.Console.dll
 C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\obj\x86\Debug\BIO.Framework.Utils.Console.pdb
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\bin\x86\Debug\BIO.Framework.Utils.Console.dll
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\bin\x86\Debug\BIO.Framework.Utils.Console.pdb
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\bin\x86\Debug\BIO.Framework.dll
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\bin\x86\Debug\BIO.Framework.pdb
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\obj\x86\Debug\BIO.Framework.Utils.Console.csprojResolveAssemblyReference.cache
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\obj\x86\Debug\BIO.Framework.Utils.Console.dll
+C:\Users\archie\Source\Repos\BIO-Projekt\BIO.Framework.Utils.Console\obj\x86\Debug\BIO.Framework.Utils.Console.pdb

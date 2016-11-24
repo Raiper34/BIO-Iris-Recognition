@@ -1,1 +1,1 @@
-Iris Recognition 1;0;0,487684729064039
+Iris Recognition 1;NaN;1
