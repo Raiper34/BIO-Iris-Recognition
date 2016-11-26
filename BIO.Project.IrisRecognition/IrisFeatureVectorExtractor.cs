@@ -10,6 +10,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.Util;
 using BIO.Framework.Core.FeatureVector;
+using System.Drawing;
 
 namespace BIO.Project.IrisRecognition
 {
@@ -25,7 +26,8 @@ namespace BIO.Project.IrisRecognition
             //convert polar cords to cartesian cords = cvLogPolar
 
             var test = input.Image.Clone();
-            var test2 = test.Copy();
+            var test2 = input.Image.Clone();
+            var original = input.Image.Clone();
 
             //Gray cannyThreshold = new Gray(180);
             //Gray cannyAccumulatorThreshold = new Gray(180);
@@ -39,7 +41,7 @@ namespace BIO.Project.IrisRecognition
 
             //var test2 = test.Copy();
 
-            //test.Save(@"d:\db\face\2D\JAFFE\processing00_" + name + ".jpg");
+            //test.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1processing00_" + name + ".jpg");
 
             //Morfology transformation
             //Image<Gray, Byte> img2 = test.Copy();
@@ -48,7 +50,7 @@ namespace BIO.Project.IrisRecognition
             StructuringElementEx element = new StructuringElementEx(3, 3, 1, 1, Emgu.CV.CvEnum.CV_ELEMENT_SHAPE.CV_SHAPE_CROSS);
             CvInvoke.cvMorphologyEx(img2, img2, IntPtr.Zero, element, Emgu.CV.CvEnum.CV_MORPH_OP.CV_MOP_OPEN, 1);
 
-            img2.Save(@"d:\db\face\2D\JAFFE\processing0_" + name + ".jpg");*/
+            img2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1processing0_" + name + ".jpg");*/
 
             //Contours
             /*Image<Gray, Byte> canny = new Image<Gray, byte>(test.Size);
@@ -64,13 +66,13 @@ namespace BIO.Project.IrisRecognition
                      System.Drawing.Rectangle r = CvInvoke.cvBoundingRect(contours1, 1);
                      canny.Draw(r, new Gray(255), 1);
                  }
-             canny.Save(@"d:\db\face\2D\JAFFE\processing9_" + name + ".jpg");*/
+             canny.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1processing9_" + name + ".jpg");*/
 
             //Invert colors
             //img2 = img2.Not();
             //Emgu.CV.CvInvoke.cvThreshold(img2, img2, 150, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY); 
 
-            //img2.Save(@"d:\db\face\2D\JAFFE\processing1_" + name + ".jpg");
+            //img2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1processing1_" + name + ".jpg");
 
             //Find circle 
             /*CircleF[] circles = img2.HoughCircles(
@@ -93,7 +95,7 @@ namespace BIO.Project.IrisRecognition
             //Use mask
             var result = test & mask;
 
-            result.Save(@"d:\db\face\2D\JAFFE\processing2_" + name + ".jpg");*/
+            result.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1processing2_" + name + ".jpg");*/
 
 
             //Move matrix
@@ -106,13 +108,13 @@ namespace BIO.Project.IrisRecognition
             matrix[1, 2] = 0;*/
 
             //Emgu.CV.CvInvoke.cvWarpAffine(test, test, matrix, 10, new Emgu.CV.Structure.MCvScalar(0,0,0));
-            //result.Save(@"d:\db\face\2D\JAFFE\processing22_" + name + ".jpg");
+            //result.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1/processing22_" + name + ".jpg");
 
-            //Pupill center !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //Pupill center
             /*********************************************************************/
             //result = result.Not();
-            /*test._EqualizeHist();  
-            //test.Save(@"d:\db\face\2D\JAFFE\processing1_" + name + ".jpg");
+            test._EqualizeHist();  
+            //test.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1processing1_" + name + ".jpg");
             Emgu.CV.CvInvoke.cvThreshold(test, test, 30, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY);
             Emgu.CV.CvInvoke.cvSmooth(test, test, Emgu.CV.CvEnum.SMOOTH_TYPE.CV_GAUSSIAN, 9, 9, 2, 2);
             Emgu.CV.CvInvoke.cvThreshold(test, test, 30, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY);
@@ -126,8 +128,8 @@ namespace BIO.Project.IrisRecognition
             Emgu.CV.CvInvoke.cvThreshold(test, test, 230, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY);
             Emgu.CV.CvInvoke.cvSmooth(test, test, Emgu.CV.CvEnum.SMOOTH_TYPE.CV_GAUSSIAN, 9, 9, 2, 2);
             Emgu.CV.CvInvoke.cvSmooth(test, test, Emgu.CV.CvEnum.SMOOTH_TYPE.CV_GAUSSIAN, 9, 9, 2, 2);
-            //test.Save(@"d:\db\face\2D\JAFFE\processing4_" + name + ".jpg");
-            Gray cannyThreshold2 = new Gray(200);
+            
+            /*Gray cannyThreshold2 = new Gray(200);
             Gray cannyAccumulatorThreshold2 = new Gray(100);
             CircleF[] circles2 = test.HoughCircles(
                                          cannyThreshold2,
@@ -146,73 +148,121 @@ namespace BIO.Project.IrisRecognition
                 //modifiedCircle.Radius = modifiedCircle.Radius * 1.15f;
                 modifiedCircle.Radius = modifiedCircle.Radius + 70;
                 mask.Draw(modifiedCircle, new Gray(255), -1);
-            }
-            test2 = test2 & mask;
+            }*/
+            Image<Gray, Byte> mask = new Image<Gray, Byte>(input.Image.Width, input.Image.Height);
+            Image<Gray, Byte> smooth = test.Not();
 
-            //test2.Save(@"d:\db\face\2D\JAFFE\out\processing987_" + name + ".jpg");*/
+            //Image<Gray, Byte> smooth = test2.Clone();
+            //smooth = smooth.SmoothGaussian(9);
+            //smooth.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\smoothGgausa_" + name + ".jpg");
+            //test2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\original_" + name + ".jpg");
+            //smooth.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\invertedTest" + name + ".jpg");
+            MCvScalar lowerBoundary = new MCvScalar(0, 0, 0);
+
+            CvInvoke.cvInRangeS(smooth, lowerBoundary, new MCvScalar(70, 70, 70), test2);
+            //smooth.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\smoothAfterInRange" + name + ".jpg");
+            //test2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\testAFterInRange" + name + ".jpg");
+
+            MCvMoments momets;
+            PointF center = new PointF();
+            CircleF centerCircle = new CircleF();
+            int pupilMinArea = 2000;
+            int pupilMaxArea = 10000;
+            test2 = test2.Not();
+            Contour<Point> conturs = test2.FindContours(Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_TREE);
+            while (conturs != null)
+            {
+                momets = conturs.GetMoments();
+
+                double conturArea = momets.GetCentralMoment(0, 0);
+
+                if (conturs.Total > 1)
+                {
+                    if (conturArea > pupilMaxArea || conturArea < pupilMinArea)
+                    {
+                        conturs = conturs.HNext;
+                        continue;
+                    }
+                }
+
+                if (conturArea > pupilMinArea)
+                {
+                    double x = momets.GetSpatialMoment(1, 0) / conturArea;
+                    double y = momets.GetSpatialMoment(0, 1) / conturArea;
+                    center = new PointF((float)x, (float)y);
+                    centerCircle = new CircleF(center, (float) (conturs.Perimeter * 0.17));
+                    //Emgu.CV.CvInvoke.cvDrawContours(test, conturs, color, color, 10000, 1, Emgu.CV.CvEnum.LINE_TYPE.EIGHT_CONNECTED, offset);
+                    //original.Draw(conturs, new Gray(255), 2);
+                    //original.Draw(new CircleF(center, 10), new Gray(255), -1);
+                    //original.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\CONTURS" + name + ".jpg");
+                    break;
+                }
+                conturs = conturs.HNext;
+            }
+            original.Draw(centerCircle, new Gray(0), -1);
+            original.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\CONTURS" + name + ".jpg");
+            CircleF modifiedCircle = new CircleF(center, 100);
+            mask.Draw(modifiedCircle, new Gray(255), -1);
+
+
+            test2 = original & mask;
+
+            //test2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing987_" + name + ".jpg");
 
             /*********************************************************************/
 
             //Polar mapping
-            /*Image<Gray, Byte> polar = test2.LogPolar(new System.Drawing.PointF(modifiedCircle.Center.X, modifiedCircle.Center.Y), 45, Emgu.CV.CvEnum.INTER.CV_INTER_AREA, Emgu.CV.CvEnum.WARP.CV_WARP_DEFAULT);
+            Image<Gray, Byte> polar = test2.LogPolar(new System.Drawing.PointF(modifiedCircle.Center.X, modifiedCircle.Center.Y), 65, Emgu.CV.CvEnum.INTER.CV_INTER_AREA, Emgu.CV.CvEnum.WARP.CV_WARP_DEFAULT);
 
-            polar.Save(@"d:\db\face\2D\JAFFE\out\processing3_" + name + ".jpg");*/
+            //polar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing3_" + name + ".jpg");
+            Image<Gray, Byte> rotatedPolar = polar.Rotate(270, new Gray(255), false);
+            rotatedPolar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\rotated" + name + ".jpg");
+            var rotatedPolarOriginal = rotatedPolar.Clone();
 
-            test.Save(@"d:\db\face\2D\JAFFE\out\processing1_" + name + ".png");
+            byte[,,] originalData = rotatedPolarOriginal.Data;
 
-            CvInvoke.cvSetImageROI(test, new System.Drawing.Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(280, 70)));
-            CvInvoke.cvCopy(test, test, new IntPtr(0));
-            test2 = test.Copy();
-            CvInvoke.cvResetImageROI(test);
-            test2.Save(@"d:\db\face\2D\JAFFE\out\processing2_" + name + ".png");
+            int widthOfNormalizedIris = rotatedPolar.Cols;
+            int heigthOfNormalizedIris = 32;
+            Image<Gray, Byte> normalizedIris = new Image<Gray, byte>(widthOfNormalizedIris, heigthOfNormalizedIris);
+            byte[,,] data = normalizedIris.Data;
 
-            test2._EqualizeHist();
-            test2.Save(@"d:\db\face\2D\JAFFE\out\processing3_" + name + ".png");
 
-            Emgu.CV.CvInvoke.cvThreshold(test2, test2, 120, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY);
-            test2.Save(@"d:\db\face\2D\JAFFE\out\processing4_" + name + ".png");
+            int rows = rotatedPolar.Rows - 1;
+            int bottom = rows;
+            int bottomLine = rows;
+            int countOfDataInRow = 0;
 
-            //Iris code generation
-            String irisCode = "";
-            Image<Gray, Byte> area = test2.Copy();
-            String pixelValue = "0";
-            int blackCounter = 0;
-            int whiteCounter = 0;
-            for(int i = 0; i < 20; i++)
+            
+            
+            int treshold = 40;
+            int normalizedIrisX = 0;
+            int normalizedIrisY = 0;
+
+            for (int i = rotatedPolar.Rows - 1; i >= 0; i--)
             {
-                blackCounter = 0;
-                whiteCounter = 0;
-                CvInvoke.cvSetImageROI(test2, new System.Drawing.Rectangle(new System.Drawing.Point(14 * i, 0), new System.Drawing.Size(14, 70)));
-                CvInvoke.cvCopy(test2, test2, new IntPtr(0));
-                area = test2.Copy();
-                for(int x = 0; x < 14; x ++)
+                countOfDataInRow = 0;
+                
+                for (int j = rotatedPolar.Cols - 1; j >= 0; j--)
                 {
-                    for (int y = 0; y < 57; y++)
-                    {
-                        pixelValue = area.Data[y, x, 0].ToString(); ;
-                        if(pixelValue == "0")
-                        {
-                            blackCounter++;
-                        }
-                        else if(pixelValue == "255")
-                        {
-                            whiteCounter++;
-                        }
-                    }
+                    if (bottomLine == rows && originalData[i, j, 0] > treshold)
+                        countOfDataInRow++;
+                    if (bottomLine != rows && i >= (bottomLine - heigthOfNormalizedIris) )
+                        data[normalizedIrisX, normalizedIrisY++, 0] = originalData[i, j, 0];
                 }
-                if(blackCounter > whiteCounter)
-                {
-                    irisCode += "0";
-                }
-                else
-                {
-                    irisCode += "1";
-                }
-                CvInvoke.cvResetImageROI(test);
-            }
-            Console.WriteLine("Iris code: " + irisCode);
+                if (bottomLine != rows)
+                    normalizedIrisX++;
+                normalizedIrisY = 0;
+                if (countOfDataInRow >= widthOfNormalizedIris)
+                    bottomLine = i;
 
-            EmguGrayImageFeatureVector fv = new EmguGrayImageFeatureVector(new System.Drawing.Size(test.Width, test.Height));
+            }
+
+            rotatedPolar.Data = data;
+
+            rotatedPolar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\rotatedAligned" + name + ".jpg");
+
+
+            EmguGrayImageFeatureVector fv = new EmguGrayImageFeatureVector(new System.Drawing.Size(polar.Width, polar.Height));
             fv.FeatureVector = test.Copy();
             return fv;
         }
