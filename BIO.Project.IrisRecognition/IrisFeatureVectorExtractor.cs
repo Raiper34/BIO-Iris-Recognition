@@ -307,7 +307,7 @@ namespace BIO.Project.IrisRecognition
 
 
             EmguGrayImageFeatureVector fv = new EmguGrayImageFeatureVector(new System.Drawing.Size(polar.Width, polar.Height));
-            fv.FeatureVector = test.Copy();
+            fv.FeatureVector = normalizedIris.Copy();
             return fv;
         }
 
