@@ -20,8 +20,9 @@ namespace BIO.Project.IrisRecognition {
             Image<Gray, byte> m1 = extracted.FeatureVector.Clone();
             Image<Gray, byte> m2 = templated.FeatureVector.Clone();
 
-            BitArray m1FvBits = this.createFeatureVectorBits(m1);
-            BitArray m2FvBits = this.createFeatureVectorBits(m2);
+            //Marek
+            /*BitArray m1FvBits = this.createFeatureVectorBits(m1);
+            BitArray m2FvBits = this.createFeatureVectorBits(m2);*/
 
             //Image<Gray, byte> m1c = m1.Resize(4.0, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
             //Image<Gray, byte> m2c = m2.Resize(4.0, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
@@ -43,11 +44,12 @@ namespace BIO.Project.IrisRecognition {
             double sum = 0;
             byte[,,] data = m1.Data;
 
-            m1FvBits.Xor(m2FvBits);
+            //Marek
+            /*m1FvBits.Xor(m2FvBits);
             //Treba dorobit for, a shiftovanie / rotovanie tych poli a ziskanie najnizsej hammingovej vzdialenosti
-            int hammingDistance = this.countOfBitsSet(m1FvBits);
+            int hammingDistance = this.countOfBitsSet(m1FvBits);*/
 
-            Console.WriteLine(hammingDistance);
+            //Console.WriteLine(hammingDistance);
 
             for (int i = m1.Rows - 1; i >= 0; i--){
             for (int j = m1.Cols - 1; j >= 0; j--){
@@ -56,19 +58,21 @@ namespace BIO.Project.IrisRecognition {
             }
 
             /************************************************************/
-            String extractedIrisCode = "1100011101";
-            String templatedIrisCode = "1011011101";
-            int minimalHamming = 1000000;
-            int actualHamming = 0;
-            int suma = 0;
+            String extractedIrisCode = this.getIrisCode(extracted);
+            String templatedIrisCode = this.getIrisCode(templated);
+            //Console.WriteLine(extractedIrisCode + "X" + templatedIrisCode);
+
+            double minimalHamming = 1000.0;
+            double actualHamming = 0.0;
+            double suma = 0.0;
             for(int i = 0; i <= extractedIrisCode.Length; i++)
             {
-                actualHamming = 0;
-                suma = 0;
+                actualHamming = 0.0;
+                suma = 0.0;
                 for(int j = 0; j < templatedIrisCode.Length; j++)
                 {
                     //XOR
-                    if((extractedIrisCode[j] == '1' && extractedIrisCode[j] == '0') || (extractedIrisCode[j] == '0' && extractedIrisCode[j] == '1'))
+                    if((extractedIrisCode[j] == '1' && templatedIrisCode[j] == '0') || (extractedIrisCode[j] == '0' && templatedIrisCode[j] == '1'))
                     {
                         suma++;
                     }
@@ -80,7 +84,8 @@ namespace BIO.Project.IrisRecognition {
                 }
                 extractedIrisCode = extractedIrisCode.Substring(1, extractedIrisCode.Length - 1) + extractedIrisCode.Substring(0, 1);
             }
-            //return new MatchingScore(minimalHamming);
+            //Console.WriteLine(minimalHamming);
+            return new MatchingScore(minimalHamming);
 
             /***********************************************************/
 
@@ -145,6 +150,50 @@ namespace BIO.Project.IrisRecognition {
                     counter += buffer[x] & 1;
 
             return counter;
+        }
+
+        private String getIrisCode(EmguGrayImageFeatureVector vector)
+        {
+            Image<Gray, byte> rotatedPolar = vector.FeatureVector.Clone();
+            //Iris code generation
+            String irisCode = "";
+            Image<Gray, Byte> area = rotatedPolar.Copy();
+            String pixelValue = "0";
+            int blackCounter = 0;
+            int whiteCounter = 0;
+            for (int i = 0; i < 70; i++)
+            {
+                blackCounter = 0;
+                whiteCounter = 0;
+                CvInvoke.cvSetImageROI(rotatedPolar, new System.Drawing.Rectangle(new System.Drawing.Point(4 * i, 0), new System.Drawing.Size(4, area.Height)));
+                CvInvoke.cvCopy(rotatedPolar, rotatedPolar, new IntPtr(0));
+                area = rotatedPolar.Copy();
+                for (int x = 0; x < 4; x++)
+                {
+                    for (int y = 0; y < area.Height; y++)
+                    {
+                        pixelValue = area.Data[y, x, 0].ToString();
+                        if (Int32.Parse(pixelValue) > 170)
+                        {
+                            blackCounter++;
+                        }
+                        else
+                        {
+                            whiteCounter++;
+                        }
+                    }
+                }
+                if (blackCounter > whiteCounter)
+                {
+                    irisCode += "0";
+                }
+                else
+                {
+                    irisCode += "1";
+                }
+                CvInvoke.cvResetImageROI(rotatedPolar);
+            }
+            return irisCode;
         }
         
     }

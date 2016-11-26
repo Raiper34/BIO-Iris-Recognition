@@ -200,7 +200,7 @@ namespace BIO.Project.IrisRecognition
                 conturs = conturs.HNext;
             }
             original.Draw(centerCircle, new Gray(0), -1);
-            original.Save(@"d:\db\face\2D\JAFFE\out\processing1_" + name + ".jpg");
+            //original.Save(@"d:\db\face\2D\JAFFE\out\processing1_" + name + ".jpg");
             CircleF modifiedCircle = new CircleF(center, 100);
             mask.Draw(modifiedCircle, new Gray(255), -1);
 
@@ -216,7 +216,7 @@ namespace BIO.Project.IrisRecognition
 
             //polar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing3_" + name + ".jpg");
             Image<Gray, Byte> rotatedPolar = polar.Rotate(270, new Gray(255), false);
-            rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing2_" + name + ".jpg");
+            //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing2_" + name + ".jpg");
             var rotatedPolarOriginal = rotatedPolar.Clone();
 
             byte[,,] originalData = rotatedPolarOriginal.Data;
@@ -259,13 +259,19 @@ namespace BIO.Project.IrisRecognition
 
             rotatedPolar.Data = data;
 
-            rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing3_" + name + ".jpg");
-
             rotatedPolar._EqualizeHist();
+
+            //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing3_" + name + ".jpg");
+
+            Image<Gray, Byte> smooth2 = rotatedPolar.Not();
+            //smooth2 = smooth.SmoothGaussian(9);
+
+            CvInvoke.cvInRangeS(smooth2, new MCvScalar(0, 0, 0), new MCvScalar(170, 170, 170), rotatedPolar);
+            //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing4_" + name + ".jpg");
 
 
             //Iris code generation
-            String irisCode = "";
+            /*String irisCode = "";
             Image<Gray, Byte> area = rotatedPolar.Copy();
             String pixelValue = "0";
             int blackCounter = 0;
@@ -302,12 +308,12 @@ namespace BIO.Project.IrisRecognition
                 }
                 CvInvoke.cvResetImageROI(test);
             }
-            Console.WriteLine("Iris code: " + irisCode);
+            Console.WriteLine("Iris code: " + irisCode);*/
 
 
 
             EmguGrayImageFeatureVector fv = new EmguGrayImageFeatureVector(new System.Drawing.Size(polar.Width, polar.Height));
-            fv.FeatureVector = normalizedIris.Copy();
+            fv.FeatureVector = rotatedPolar.Copy();
             return fv;
         }
 
