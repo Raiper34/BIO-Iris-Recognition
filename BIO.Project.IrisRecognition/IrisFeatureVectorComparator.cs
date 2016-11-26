@@ -43,7 +43,12 @@ namespace BIO.Project.IrisRecognition {
             double sum = 0;
             byte[,,] data = m1.Data;
 
-           
+            m1FvBits.Xor(m2FvBits);
+            //Treba dorobit for, a shiftovanie / rotovanie tych poli a ziskanie najnizsej hammingovej vzdialenosti
+            int hammingDistance = this.countOfBitsSet(m1FvBits);
+
+            Console.WriteLine(hammingDistance);
+
             for (int i = m1.Rows - 1; i >= 0; i--){
             for (int j = m1.Cols - 1; j >= 0; j--){
                 sum += data[i,j,0];
@@ -123,6 +128,25 @@ namespace BIO.Project.IrisRecognition {
             }
             return fVector;
         }
+
+        private int countOfBitsSet(BitArray myBitArray)
+        {
+            int bits = myBitArray.Count,
+            size = ((bits - 1) >> 3) + 1,
+            counter = 0,
+            x,
+            c;
+
+            byte[] buffer = new byte[size];
+            myBitArray.CopyTo(buffer, 0);
+
+            for (x = 0; x < size; x++)
+                for (c = 0; buffer[x] > 0; buffer[x] >>= 1)
+                    counter += buffer[x] & 1;
+
+            return counter;
+        }
+        
     }
 
     
