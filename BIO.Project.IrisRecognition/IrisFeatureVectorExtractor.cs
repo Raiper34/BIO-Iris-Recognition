@@ -200,7 +200,7 @@ namespace BIO.Project.IrisRecognition
                 conturs = conturs.HNext;
             }
             original.Draw(centerCircle, new Gray(0), -1);
-            original.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\CONTURS" + name + ".jpg");
+            original.Save(@"d:\db\face\2D\JAFFE\out\processing1_" + name + ".jpg");
             CircleF modifiedCircle = new CircleF(center, 100);
             mask.Draw(modifiedCircle, new Gray(255), -1);
 
@@ -216,7 +216,7 @@ namespace BIO.Project.IrisRecognition
 
             //polar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing3_" + name + ".jpg");
             Image<Gray, Byte> rotatedPolar = polar.Rotate(270, new Gray(255), false);
-            rotatedPolar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\rotated" + name + ".jpg");
+            rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing2_" + name + ".jpg");
             var rotatedPolarOriginal = rotatedPolar.Clone();
 
             byte[,,] originalData = rotatedPolarOriginal.Data;
@@ -259,7 +259,51 @@ namespace BIO.Project.IrisRecognition
 
             rotatedPolar.Data = data;
 
-            rotatedPolar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\rotatedAligned" + name + ".jpg");
+            rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing3_" + name + ".jpg");
+
+            rotatedPolar._EqualizeHist();
+
+
+            //Iris code generation
+            String irisCode = "";
+            Image<Gray, Byte> area = rotatedPolar.Copy();
+            String pixelValue = "0";
+            int blackCounter = 0;
+            int whiteCounter = 0;
+            for (int i = 0; i < 20; i++)
+            {
+                blackCounter = 0;
+                whiteCounter = 0;
+                CvInvoke.cvSetImageROI(rotatedPolar, new System.Drawing.Rectangle(new System.Drawing.Point(14 * i, 0), new System.Drawing.Size(14, area.Height)));
+                CvInvoke.cvCopy(rotatedPolar, rotatedPolar, new IntPtr(0));
+                area = rotatedPolar.Copy();
+                for (int x = 0; x < 14; x++)
+                {
+                    for (int y = 0; y < area.Height; y++)
+                    {
+                        pixelValue = area.Data[y, x, 0].ToString(); ;
+                        if (pixelValue == "0")
+                        {
+                            blackCounter++;
+                        }
+                        else if (pixelValue == "255")
+                        {
+                            whiteCounter++;
+                        }
+                    }
+                }
+                if (blackCounter > whiteCounter)
+                {
+                    irisCode += "0";
+                }
+                else
+                {
+                    irisCode += "1";
+                }
+                CvInvoke.cvResetImageROI(test);
+            }
+            Console.WriteLine("Iris code: " + irisCode);
+
 
 
             EmguGrayImageFeatureVector fv = new EmguGrayImageFeatureVector(new System.Drawing.Size(polar.Width, polar.Height));
