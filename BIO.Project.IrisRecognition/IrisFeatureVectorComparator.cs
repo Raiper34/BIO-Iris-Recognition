@@ -45,10 +45,39 @@ namespace BIO.Project.IrisRecognition {
                 sum += data[i,j,0];
             }
             }
-            
+
+            /************************************************************/
+            String extractedIrisCode = "1100011101";
+            String templatedIrisCode = "1011011101";
+            int minimalHamming = 1000000;
+            int actualHamming = 0;
+            int suma = 0;
+            for(int i = 0; i <= extractedIrisCode.Length; i++)
+            {
+                actualHamming = 0;
+                suma = 0;
+                for(int j = 0; j < templatedIrisCode.Length; j++)
+                {
+                    //XOR
+                    if((extractedIrisCode[j] == '1' && extractedIrisCode[j] == '0') || (extractedIrisCode[j] == '0' && extractedIrisCode[j] == '1'))
+                    {
+                        suma++;
+                    }
+                }
+                actualHamming = suma / templatedIrisCode.Length;
+                if(actualHamming < minimalHamming)
+                {
+                    minimalHamming = actualHamming;
+                }
+                extractedIrisCode = extractedIrisCode.Substring(1, extractedIrisCode.Length - 1) + extractedIrisCode.Substring(0, 1);
+            }
+            //return new MatchingScore(minimalHamming);
+
+            /***********************************************************/
+
             //draw.ROI = new System.Drawing.Rectangle();
             //ImageViewer.Show(draw, sum.ToString());
-            
+
             return new MatchingScore(sum);
         }
 

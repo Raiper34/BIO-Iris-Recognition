@@ -108,10 +108,10 @@ namespace BIO.Project.IrisRecognition
             //Emgu.CV.CvInvoke.cvWarpAffine(test, test, matrix, 10, new Emgu.CV.Structure.MCvScalar(0,0,0));
             //result.Save(@"d:\db\face\2D\JAFFE\processing22_" + name + ".jpg");
 
-            //Pupill center
+            //Pupill center !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             /*********************************************************************/
             //result = result.Not();
-            test._EqualizeHist();  
+            /*test._EqualizeHist();  
             //test.Save(@"d:\db\face\2D\JAFFE\processing1_" + name + ".jpg");
             Emgu.CV.CvInvoke.cvThreshold(test, test, 30, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY);
             Emgu.CV.CvInvoke.cvSmooth(test, test, Emgu.CV.CvEnum.SMOOTH_TYPE.CV_GAUSSIAN, 9, 9, 2, 2);
@@ -149,16 +149,70 @@ namespace BIO.Project.IrisRecognition
             }
             test2 = test2 & mask;
 
-            //test2.Save(@"d:\db\face\2D\JAFFE\out\processing987_" + name + ".jpg");
+            //test2.Save(@"d:\db\face\2D\JAFFE\out\processing987_" + name + ".jpg");*/
 
             /*********************************************************************/
 
             //Polar mapping
-            Image<Gray, Byte> polar = test2.LogPolar(new System.Drawing.PointF(modifiedCircle.Center.X, modifiedCircle.Center.Y), 45, Emgu.CV.CvEnum.INTER.CV_INTER_AREA, Emgu.CV.CvEnum.WARP.CV_WARP_DEFAULT);
+            /*Image<Gray, Byte> polar = test2.LogPolar(new System.Drawing.PointF(modifiedCircle.Center.X, modifiedCircle.Center.Y), 45, Emgu.CV.CvEnum.INTER.CV_INTER_AREA, Emgu.CV.CvEnum.WARP.CV_WARP_DEFAULT);
 
-            polar.Save(@"d:\db\face\2D\JAFFE\out\processing3_" + name + ".jpg");
-            
-            EmguGrayImageFeatureVector fv = new EmguGrayImageFeatureVector(new System.Drawing.Size(polar.Width, polar.Height));
+            polar.Save(@"d:\db\face\2D\JAFFE\out\processing3_" + name + ".jpg");*/
+
+            test.Save(@"d:\db\face\2D\JAFFE\out\processing1_" + name + ".png");
+
+            CvInvoke.cvSetImageROI(test, new System.Drawing.Rectangle(new System.Drawing.Point(0, 0), new System.Drawing.Size(280, 70)));
+            CvInvoke.cvCopy(test, test, new IntPtr(0));
+            test2 = test.Copy();
+            CvInvoke.cvResetImageROI(test);
+            test2.Save(@"d:\db\face\2D\JAFFE\out\processing2_" + name + ".png");
+
+            test2._EqualizeHist();
+            test2.Save(@"d:\db\face\2D\JAFFE\out\processing3_" + name + ".png");
+
+            Emgu.CV.CvInvoke.cvThreshold(test2, test2, 120, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY);
+            test2.Save(@"d:\db\face\2D\JAFFE\out\processing4_" + name + ".png");
+
+            //Iris code generation
+            String irisCode = "";
+            Image<Gray, Byte> area = test2.Copy();
+            String pixelValue = "0";
+            int blackCounter = 0;
+            int whiteCounter = 0;
+            for(int i = 0; i < 20; i++)
+            {
+                blackCounter = 0;
+                whiteCounter = 0;
+                CvInvoke.cvSetImageROI(test2, new System.Drawing.Rectangle(new System.Drawing.Point(14 * i, 0), new System.Drawing.Size(14, 70)));
+                CvInvoke.cvCopy(test2, test2, new IntPtr(0));
+                area = test2.Copy();
+                for(int x = 0; x < 14; x ++)
+                {
+                    for (int y = 0; y < 57; y++)
+                    {
+                        pixelValue = area.Data[y, x, 0].ToString(); ;
+                        if(pixelValue == "0")
+                        {
+                            blackCounter++;
+                        }
+                        else if(pixelValue == "255")
+                        {
+                            whiteCounter++;
+                        }
+                    }
+                }
+                if(blackCounter > whiteCounter)
+                {
+                    irisCode += "0";
+                }
+                else
+                {
+                    irisCode += "1";
+                }
+                CvInvoke.cvResetImageROI(test);
+            }
+            Console.WriteLine("Iris code: " + irisCode);
+
+            EmguGrayImageFeatureVector fv = new EmguGrayImageFeatureVector(new System.Drawing.Size(test.Width, test.Height));
             fv.FeatureVector = test.Copy();
             return fv;
         }
