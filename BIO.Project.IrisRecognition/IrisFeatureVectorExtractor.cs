@@ -10,6 +10,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.Util;
 using BIO.Framework.Core.FeatureVector;
+using System.Drawing;
 
 namespace BIO.Project.IrisRecognition
 {
@@ -25,7 +26,8 @@ namespace BIO.Project.IrisRecognition
             //convert polar cords to cartesian cords = cvLogPolar
 
             var test = input.Image.Clone();
-            var test2 = test.Copy();
+            var test2 = input.Image.Clone();
+            var original = input.Image.Clone();
 
             //Gray cannyThreshold = new Gray(180);
             //Gray cannyAccumulatorThreshold = new Gray(180);
@@ -126,8 +128,8 @@ namespace BIO.Project.IrisRecognition
             Emgu.CV.CvInvoke.cvThreshold(test, test, 230, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY);
             Emgu.CV.CvInvoke.cvSmooth(test, test, Emgu.CV.CvEnum.SMOOTH_TYPE.CV_GAUSSIAN, 9, 9, 2, 2);
             Emgu.CV.CvInvoke.cvSmooth(test, test, Emgu.CV.CvEnum.SMOOTH_TYPE.CV_GAUSSIAN, 9, 9, 2, 2);
-            //test.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1processing4_" + name + ".jpg");
-            Gray cannyThreshold2 = new Gray(200);
+            
+            /*Gray cannyThreshold2 = new Gray(200);
             Gray cannyAccumulatorThreshold2 = new Gray(100);
             CircleF[] circles2 = test.HoughCircles(
                                          cannyThreshold2,
@@ -146,77 +148,113 @@ namespace BIO.Project.IrisRecognition
                 //modifiedCircle.Radius = modifiedCircle.Radius * 1.15f;
                 modifiedCircle.Radius = modifiedCircle.Radius + 70;
                 mask.Draw(modifiedCircle, new Gray(255), -1);
+            }*/
+            Image<Gray, Byte> mask = new Image<Gray, Byte>(input.Image.Width, input.Image.Height);
+            Image<Gray, Byte> smooth = test.Not();
+
+            //Image<Gray, Byte> smooth = test2.Clone();
+            //smooth = smooth.SmoothGaussian(9);
+            //smooth.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\smoothGgausa_" + name + ".jpg");
+            //test2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\original_" + name + ".jpg");
+            //smooth.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\invertedTest" + name + ".jpg");
+            MCvScalar lowerBoundary = new MCvScalar(0, 0, 0);
+
+            CvInvoke.cvInRangeS(smooth, lowerBoundary, new MCvScalar(70, 70, 70), test2);
+            //smooth.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\smoothAfterInRange" + name + ".jpg");
+            //test2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\testAFterInRange" + name + ".jpg");
+
+            MCvMoments momets;
+            PointF center = new PointF();
+            CircleF centerCircle = new CircleF();
+            int pupilMinArea = 2000;
+            int pupilMaxArea = 10000;
+            test2 = test2.Not();
+            Contour<Point> conturs = test2.FindContours(Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE, Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_TREE);
+            while (conturs != null)
+            {
+                momets = conturs.GetMoments();
+
+                double conturArea = momets.GetCentralMoment(0, 0);
+
+                if (conturs.Total > 1)
+                {
+                    if (conturArea > pupilMaxArea || conturArea < pupilMinArea)
+                    {
+                        conturs = conturs.HNext;
+                        continue;
+                    }
+                }
+
+                if (conturArea > pupilMinArea)
+                {
+                    double x = momets.GetSpatialMoment(1, 0) / conturArea;
+                    double y = momets.GetSpatialMoment(0, 1) / conturArea;
+                    center = new PointF((float)x, (float)y);
+                    centerCircle = new CircleF(center, (float) (conturs.Perimeter * 0.17));
+                    //Emgu.CV.CvInvoke.cvDrawContours(test, conturs, color, color, 10000, 1, Emgu.CV.CvEnum.LINE_TYPE.EIGHT_CONNECTED, offset);
+                    //original.Draw(conturs, new Gray(255), 2);
+                    //original.Draw(new CircleF(center, 10), new Gray(255), -1);
+                    //original.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\CONTURS" + name + ".jpg");
+                    break;
+                }
+                conturs = conturs.HNext;
             }
-            test2 = test2 & mask;
+            original.Draw(centerCircle, new Gray(0), -1);
+            original.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\CONTURS" + name + ".jpg");
+            CircleF modifiedCircle = new CircleF(center, 100);
+            mask.Draw(modifiedCircle, new Gray(255), -1);
+
+
+            test2 = original & mask;
 
             //test2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing987_" + name + ".jpg");
 
             /*********************************************************************/
 
             //Polar mapping
-            Image<Gray, Byte> polar = test2.LogPolar(new System.Drawing.PointF(modifiedCircle.Center.X, modifiedCircle.Center.Y), 45, Emgu.CV.CvEnum.INTER.CV_INTER_AREA, Emgu.CV.CvEnum.WARP.CV_WARP_DEFAULT);
+            Image<Gray, Byte> polar = test2.LogPolar(new System.Drawing.PointF(modifiedCircle.Center.X, modifiedCircle.Center.Y), 65, Emgu.CV.CvEnum.INTER.CV_INTER_AREA, Emgu.CV.CvEnum.WARP.CV_WARP_DEFAULT);
 
-            polar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing3_" + name + ".jpg");
-            Image<Gray, Byte> rotatedPolar = polar.Rotate(90, new Gray(255), false);
+            //polar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing3_" + name + ".jpg");
+            Image<Gray, Byte> rotatedPolar = polar.Rotate(270, new Gray(255), false);
             rotatedPolar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\rotated" + name + ".jpg");
             var rotatedPolarOriginal = rotatedPolar.Clone();
 
             byte[,,] originalData = rotatedPolarOriginal.Data;
-            byte[,,] data = rotatedPolar.Data; 
-            
 
-            int bottom = 0;
+            int widthOfNormalizedIris = rotatedPolar.Cols;
+            int heigthOfNormalizedIris = 32;
+            Image<Gray, Byte> normalizedIris = new Image<Gray, byte>(widthOfNormalizedIris, heigthOfNormalizedIris);
+            byte[,,] data = normalizedIris.Data;
+
+
             int rows = rotatedPolar.Rows - 1;
-            int heigthOfNormalizedIris = 80;
-            int treshold = 60;
+            int bottom = rows;
+            int bottomLine = rows;
+            int countOfDataInRow = 0;
 
-            //100 pixelov od vrchu bude duhovka, zvysok bude prazdno
-            //zistim, od spodu na akom mieste zacina duhovka
+            
+            
+            int treshold = 40;
+            int normalizedIrisX = 0;
+            int normalizedIrisY = 0;
 
             for (int i = rotatedPolar.Rows - 1; i >= 0; i--)
             {
+                countOfDataInRow = 0;
                 
                 for (int j = rotatedPolar.Cols - 1; j >= 0; j--)
                 {
-                    if(bottom == 0)
-                    {
-                        if (originalData[i, j, 0] > treshold)
-                        {
-                            bottom = i;
-                        }
-                        else
-                        {
-                            data[i, j, 0] = 255;
-                        }
-                    }
-                    else
-                    {
-
-                        /*Cisto biele okolie**/
-                        if (i > heigthOfNormalizedIris - 1)
-                        {
-                           if(originalData[i, j, 0] > treshold)
-                                data[bottom - i, j, 0] = originalData[i, j, 0];
-                           else
-                                data[bottom - i, j, 0] =255;
-                            data[i, j, 0] = 255;
-                        }
-                        /* SEDY PASIK
-                         * else
-                        {
-                            if (i < bottom && i > bottom - heigthOfNormalizedIris)
-                            {
-                                data[bottom - i, j, 0] = originalData[i, j, 0];
-                                data[i, j, 0] = 255;
-                            }
-                            else if (i > heigthOfNormalizedIris - 1)
-                            {
-                                data[i, j, 0] = 255;
-                            }
-                        }*/
-                    }
+                    if (bottomLine == rows && originalData[i, j, 0] > treshold)
+                        countOfDataInRow++;
+                    if (bottomLine != rows && i >= (bottomLine - heigthOfNormalizedIris) )
+                        data[normalizedIrisX, normalizedIrisY++, 0] = originalData[i, j, 0];
                 }
-                int a = 1;
+                if (bottomLine != rows)
+                    normalizedIrisX++;
+                normalizedIrisY = 0;
+                if (countOfDataInRow >= widthOfNormalizedIris)
+                    bottomLine = i;
+
             }
 
             rotatedPolar.Data = data;
