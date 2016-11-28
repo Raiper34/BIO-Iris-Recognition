@@ -19,11 +19,6 @@ namespace BIO.Project.IrisRecognition {
         public MatchingScore computeMatchingScore(EmguGrayImageFeatureVector extracted, EmguGrayImageFeatureVector templated) {
             Image<Gray, byte> m1 = extracted.FeatureVector.Clone();
             Image<Gray, byte> m2 = templated.FeatureVector.Clone();
-            var rotatedM2 = m2.Rotate(90, new Gray(255), false);
-            var rotatedM1 = m1.Rotate(90, new Gray(255), false);
-            var rotatedM1Original = m1.Rotate(90, new Gray(255), false);
-
-            //m1 = m1.AbsDiff(m2);
             
             double sum = 0;
             byte[,,] data = m1.Rotate(90, new Gray(255), false).Data;
@@ -31,33 +26,6 @@ namespace BIO.Project.IrisRecognition {
             Matrix<byte> transaltionMatrix = new Matrix<byte>(1,1);
             transaltionMatrix.SetZero();
 
-            /*
-             * bool firstBit = bits.Get(0);
-            
-            for(int i = 1; i < bits.Length; i++)
-            {
-                bits[i - 1] = bits[i];
-            }
-            bits[bits.Length-1] = firstBit;
-            return bits;
-             */
-
-
-            //for and shifting
-            /*double maxSum = m1.DotProduct(m2) / (m1.Norm * m2.Norm) * 1000; 
-            for (int i = 1; i < m1.Cols; i++)
-            {
-                Array.Copy(m1.Data, 0, m1.Data, 1, m1.Cols * m1.Rows -1 );
-                Array.Copy(m1.Data, m1.Cols * m1.Rows - 1, m1.Data, 0, 1);
-
-                sum = m1.DotProduct(m2) / (m1.Norm * m1.Norm) * 1000;
-                if (sum < maxSum)
-                    maxSum = sum;
-
-
-                //m1.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\SHIFTED" +i +".jpg");
-                i = i;
-            }*/
 
             BitArray bitsExtracted = new BitArray(m1.Bytes);
             BitArray bitsXored = new BitArray(m1.Bytes);
@@ -77,50 +45,10 @@ namespace BIO.Project.IrisRecognition {
 
                 if (sum < maxSum)
                     maxSum = sum;
-
-                //m1.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\SHIFTED" +i +".jpg");
-                i = i;
             }
             
 
             return new MatchingScore(maxSum);
-
-            /************************************************************/
-            String extractedIrisCode = this.getIrisCode(extracted);
-            String templatedIrisCode = this.getIrisCode(templated);
-            
-
-            double minimalHamming = 1000.0;
-            double actualHamming = 0.0;
-            double suma = 0.0;
-            for(int i = 0; i <= extractedIrisCode.Length; i++)
-            {
-                actualHamming = 0.0;
-                suma = 0.0;
-                for(int j = 0; j < templatedIrisCode.Length; j++)
-                {
-                    //XOR
-                    if((extractedIrisCode[j] == '1' && templatedIrisCode[j] == '0') || (extractedIrisCode[j] == '0' && templatedIrisCode[j] == '1'))
-                    {
-                        suma++;
-                    }
-                }
-                actualHamming = suma / templatedIrisCode.Length;
-                if(actualHamming < minimalHamming)
-                {
-                    minimalHamming = actualHamming;
-                }
-                extractedIrisCode = extractedIrisCode.Substring(1, extractedIrisCode.Length - 1) + extractedIrisCode.Substring(0, 1);
-            }
-            //Console.WriteLine(minimalHamming);
-            return new MatchingScore(minimalHamming);
-
-            /***********************************************************/
-
-            //draw.ROI = new System.Drawing.Rectangle();
-            //ImageViewer.Show(draw, sum.ToString());
-
-            return new MatchingScore(sum);
         }
 
         private BitArray createFeatureVectorBits(Image<Gray, Byte> m1)
@@ -162,13 +90,13 @@ namespace BIO.Project.IrisRecognition {
             return fVector;
         }
 
+
+        //Source: http://stackoverflow.com/questions/5063178/counting-bits-set-in-a-net-bitarray-class
         public static Int32 countOfBitsSet(BitArray bitArray)
         {
 
             Int32[] ints = new Int32[(bitArray.Count >> 5) + 1];
-
             bitArray.CopyTo(ints, 0);
-
             Int32 count = 0;
 
             // fix for not truncated bits in last integer that may have been set to true with SetAll()
@@ -176,9 +104,7 @@ namespace BIO.Project.IrisRecognition {
 
             for (Int32 i = 0; i < ints.Length; i++)
             {
-
                 Int32 c = ints[i];
-
                 // magic (http://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel)
                 unchecked
                 {
@@ -186,26 +112,9 @@ namespace BIO.Project.IrisRecognition {
                     c = (c & 0x33333333) + ((c >> 2) & 0x33333333);
                     c = ((c + (c >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
                 }
-
                 count += c;
-
             }
-
             return count;
-
-        }
-
-
-        public BitArray rotateBits(BitArray bits)
-        {
-            bool firstBit = bits.Get(0);
-            
-            for(int i = 1; i < bits.Length; i++)
-            {
-                bits[i - 1] = bits[i];
-            }
-            bits[bits.Length-1] = firstBit;
-            return bits;
         }
 
         private String getIrisCode(EmguGrayImageFeatureVector vector)
