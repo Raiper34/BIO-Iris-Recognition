@@ -288,9 +288,11 @@ namespace BIO.Project.IrisRecognition
             GaborKernel gaborKernel = new GaborKernel(9, 9);
             Image<Gray, float> gaborKernelImage = new Image<Gray, float>(size, size);
             ConvolutionKernelF kernel = new ConvolutionKernelF(gaborKernel._Real.Data);*/
-            smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\beforeEq" + name + ".jpg");
-            smooth2._EqualizeHist();
-            originalData = rotatedPolar.Data;
+            
+            
+            smooth2._SmoothGaussian(3, 9, 10, 10);
+            smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\gaaaaaaaaa" + name + ".jpg");
+            originalData = smooth2.Clone().Data;
             data = smooth2.Data;
 
             for (int i = 1; i < smooth2.Rows - 1; i++)
@@ -311,12 +313,12 @@ namespace BIO.Project.IrisRecognition
                 }
             }
 
-            smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\befor" + name + ".jpg");
+            //smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\befor" + name + ".jpg");
             Gray avg = smooth2.GetAverage();
             smooth2._ThresholdBinary(smooth2.GetAverage(), new Gray(255));
 
 
-            smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\gabor" + name + ".jpg");
+            //smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\gabor" + name + ".jpg");
 
 
 

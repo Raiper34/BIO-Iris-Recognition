@@ -19,62 +19,76 @@ namespace BIO.Project.IrisRecognition {
         public MatchingScore computeMatchingScore(EmguGrayImageFeatureVector extracted, EmguGrayImageFeatureVector templated) {
             Image<Gray, byte> m1 = extracted.FeatureVector.Clone();
             Image<Gray, byte> m2 = templated.FeatureVector.Clone();
+            var rotatedM2 = m2.Rotate(90, new Gray(255), false);
+            var rotatedM1 = m1.Rotate(90, new Gray(255), false);
+            var rotatedM1Original = m1.Rotate(90, new Gray(255), false);
 
-            //Marek
-            //BitArray m1FvBits = this.createFeatureVectorBits(m1);
-            //BitArray m2FvBits = this.createFeatureVectorBits(m2);
-
-            //Image<Gray, byte> m1c = m1.Resize(4.0, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
-            //Image<Gray, byte> m2c = m2.Resize(4.0, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
-            //Image<Gray, byte> draw = new Image<Gray, byte>(500, 500);
-
-            //draw.ROI = new System.Drawing.Rectangle(0, 0, m1c.Width, m2c.Height);
-            //m1c.CopyTo(draw);
-
-            //draw.ROI = new System.Drawing.Rectangle(m1c.Width, 0, m1c.Width, m2c.Height);
-            //m2c.CopyTo(draw);
-
-
-            m1 = m1.AbsDiff(m2);
+            //m1 = m1.AbsDiff(m2);
             
-            //draw.ROI = new System.Drawing.Rectangle(0, m1c.Height, m1c.Width, m2c.Height);
-            //m1.Resize(4.0, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC).CopyTo(draw);
-            
-
             double sum = 0;
-            byte[,,] data = m1.Data;
+            byte[,,] data = m1.Rotate(90, new Gray(255), false).Data;
 
-            //Marek
+            Matrix<byte> transaltionMatrix = new Matrix<byte>(1,1);
+            transaltionMatrix.SetZero();
 
-
-
-            //Treba dorobit for, a shiftovanie / rotovanie tych poli a ziskanie najnizsej hammingovej vzdialenosti
             /*
-            int lowestHammingDistance = m1FvBits.Length;
-            for ( int i = 0;  i < m1FvBits.Length; i++)
+             * bool firstBit = bits.Get(0);
+            
+            for(int i = 1; i < bits.Length; i++)
             {
-                BitArray bitsAfterXor = new BitArray(m1FvBits);
-                bitsAfterXor.Xor(m2FvBits);
-                int hammingDistance = this.countOfBitsSet(bitsAfterXor);
-                if(lowestHammingDistance > hammingDistance) 
-                    lowestHammingDistance = hammingDistance;
-                rotateBits(m1FvBits);
+                bits[i - 1] = bits[i];
             }
+            bits[bits.Length-1] = firstBit;
+            return bits;
+             */
 
-            return new MatchingScore(lowestHammingDistance);*/
 
-            //Console.WriteLine(hammingDistance);
+            //for and shifting
+            /*double maxSum = m1.DotProduct(m2) / (m1.Norm * m2.Norm) * 1000; 
+            for (int i = 1; i < m1.Cols; i++)
+            {
+                Array.Copy(m1.Data, 0, m1.Data, 1, m1.Cols * m1.Rows -1 );
+                Array.Copy(m1.Data, m1.Cols * m1.Rows - 1, m1.Data, 0, 1);
 
-            /*for (int i = m1.Rows - 1; i >= 0; i--){
-            for (int j = m1.Cols - 1; j >= 0; j--){
-                sum += data[i,j,0];
-            }
+                sum = m1.DotProduct(m2) / (m1.Norm * m1.Norm) * 1000;
+                if (sum < maxSum)
+                    maxSum = sum;
+
+
+                //m1.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\SHIFTED" +i +".jpg");
+                i = i;
             }*/
+
+            BitArray bitsExtracted = new BitArray(m1.Bytes);
+            BitArray bitsXored = new BitArray(m1.Bytes);
+            BitArray bitsTemplated = new BitArray(m2.Bytes);
+
+            bitsXored.Xor(bitsTemplated);
+            double maxSum = countOfBitsSet(bitsXored);
+            sum = maxSum;
+            for (int i = 1; i < m1.Cols; i++)
+            {
+                Array.Copy(m1.Data, 0, m1.Data, 1, m1.Cols * m1.Rows -1 );
+                Array.Copy(m1.Data, m1.Cols * m1.Rows - 1, m1.Data, 0, 1);
+
+                bitsXored = new BitArray(m1.Bytes);
+                bitsXored.Xor(bitsTemplated);
+                sum = countOfBitsSet(bitsXored);
+
+                if (sum < maxSum)
+                    maxSum = sum;
+
+                //m1.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\SHIFTED" +i +".jpg");
+                i = i;
+            }
+            
+
+            return new MatchingScore(maxSum);
 
             /************************************************************/
             String extractedIrisCode = this.getIrisCode(extracted);
             String templatedIrisCode = this.getIrisCode(templated);
-            //Console.WriteLine(extractedIrisCode + "X" + templatedIrisCode);
+            
 
             double minimalHamming = 1000.0;
             double actualHamming = 0.0;
@@ -148,23 +162,39 @@ namespace BIO.Project.IrisRecognition {
             return fVector;
         }
 
-        private int countOfBitsSet(BitArray myBitArray)
+        public static Int32 countOfBitsSet(BitArray bitArray)
         {
-            int bits = myBitArray.Count,
-            size = ((bits - 1) >> 3) + 1,
-            counter = 0,
-            x,
-            c;
 
-            byte[] buffer = new byte[size];
-            myBitArray.CopyTo(buffer, 0);
+            Int32[] ints = new Int32[(bitArray.Count >> 5) + 1];
 
-            for (x = 0; x < size; x++)
-                for (c = 0; buffer[x] > 0; buffer[x] >>= 1)
-                    counter += buffer[x] & 1;
+            bitArray.CopyTo(ints, 0);
 
-            return counter;
+            Int32 count = 0;
+
+            // fix for not truncated bits in last integer that may have been set to true with SetAll()
+            ints[ints.Length - 1] &= ~(-1 << (bitArray.Count % 32));
+
+            for (Int32 i = 0; i < ints.Length; i++)
+            {
+
+                Int32 c = ints[i];
+
+                // magic (http://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel)
+                unchecked
+                {
+                    c = c - ((c >> 1) & 0x55555555);
+                    c = (c & 0x33333333) + ((c >> 2) & 0x33333333);
+                    c = ((c + (c >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
+                }
+
+                count += c;
+
+            }
+
+            return count;
+
         }
+
 
         public BitArray rotateBits(BitArray bits)
         {
