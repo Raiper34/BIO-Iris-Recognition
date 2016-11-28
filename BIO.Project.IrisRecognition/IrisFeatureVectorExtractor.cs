@@ -24,7 +24,7 @@ namespace BIO.Project.IrisRecognition
             //delete all outer eye circle
             //delete all inside pupil
             //convert polar cords to cartesian cords = cvLogPolar
-
+            
             var test = input.Image.Clone();
             var test2 = input.Image.Clone();
             var original = input.Image.Clone();
@@ -200,7 +200,7 @@ namespace BIO.Project.IrisRecognition
                 conturs = conturs.HNext;
             }
             original.Draw(centerCircle, new Gray(0), -1);
-            //original.Save(@"d:\db\face\2D\JAFFE\out\processing1_" + name + ".jpg");
+            //original.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing1_" + name + ".jpg");
             CircleF modifiedCircle = new CircleF(center, 100);
             mask.Draw(modifiedCircle, new Gray(255), -1);
 
@@ -216,7 +216,7 @@ namespace BIO.Project.IrisRecognition
 
             //polar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing3_" + name + ".jpg");
             Image<Gray, Byte> rotatedPolar = polar.Rotate(270, new Gray(255), false);
-            //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing2_" + name + ".jpg");
+            //rotatedPolar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing2_" + name + ".jpg");
             var rotatedPolarOriginal = rotatedPolar.Clone();
 
             byte[,,] originalData = rotatedPolarOriginal.Data;
@@ -260,67 +260,72 @@ namespace BIO.Project.IrisRecognition
             rotatedPolar.Data = data;
 
             rotatedPolar._EqualizeHist();
-            //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing1_" + name + ".jpg");
-            rotatedPolar._GammaCorrect(1.8d);
-            //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing2_" + name + ".jpg");
 
-            //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing3_" + name + ".jpg");
+            //rotatedPolar.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\processing3_" + name + ".jpg");
 
-            //Image<Gray, Byte> smooth2 = rotatedPolar.Not();
+            //Image<Gray, float> smooth2 = rotatedPolar.Convert<Gray, float>();
+            Image<Gray, Byte> smooth2 = rotatedPolar.Copy();
             //smooth2 = smooth.SmoothGaussian(9);
 
             //CvInvoke.cvInRangeS(smooth2, new MCvScalar(0, 0, 0), new MCvScalar(170, 170, 170), rotatedPolar);
-
-            Emgu.CV.CvInvoke.cvThreshold(rotatedPolar, rotatedPolar, 100, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_OTSU);
-            rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing4_" + name + ".jpg");
-
-
-            //Iris code generation
-            /*String irisCode = "";
-            Image<Gray, Byte> area = rotatedPolar.Copy();
-            String pixelValue = "0";
-            int blackCounter = 0;
-            int whiteCounter = 0;
-            for (int i = 0; i < 20; i++)
+            //smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\smooth_" + name + ".jpg");
+            /*
+            for(int i = 3; i < 30; i += 2)
             {
-                blackCounter = 0;
-                whiteCounter = 0;
-                CvInvoke.cvSetImageROI(rotatedPolar, new System.Drawing.Rectangle(new System.Drawing.Point(14 * i, 0), new System.Drawing.Size(14, area.Height)));
-                CvInvoke.cvCopy(rotatedPolar, rotatedPolar, new IntPtr(0));
-                area = rotatedPolar.Copy();
-                for (int x = 0; x < 14; x++)
+                for(int j=0; j<300; j += 30)
                 {
-                    for (int y = 0; y < area.Height; y++)
+                    for(int jj=0; jj<300; jj+= 30)
                     {
-                        pixelValue = area.Data[y, x, 0].ToString(); ;
-                        if (pixelValue == "0")
-                        {
-                            blackCounter++;
-                        }
-                        else if (pixelValue == "255")
-                        {
-                            whiteCounter++;
-                        }
+                        smooth2 = rotatedPolar.Convert<Gray, float>();
+                        smooth2 = smooth2.SmoothGaussian(i, i, j, jj);
+                        smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\smootGauss" + name + ".jpg");
+                        i = i;
                     }
                 }
-                if (blackCounter > whiteCounter)
+                
+            }*/
+            /*int size = 101;
+            GaborKernel gaborKernel = new GaborKernel(9, 9);
+            Image<Gray, float> gaborKernelImage = new Image<Gray, float>(size, size);
+            ConvolutionKernelF kernel = new ConvolutionKernelF(gaborKernel._Real.Data);*/
+            smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\beforeEq" + name + ".jpg");
+            smooth2._EqualizeHist();
+            originalData = rotatedPolar.Data;
+            data = smooth2.Data;
+
+            for (int i = 1; i < smooth2.Rows - 1; i++)
+            {
+                for(int j = 1; j < smooth2.Cols - 1; j++)
                 {
-                    irisCode += "0";
+                    Byte centerByte = originalData[i, j, 0];
+                    Byte code = 0;
+                    code |= (Byte)(Convert.ToByte(originalData[i - 1, j - 1, 0] > centerByte) << 7);
+                    code |= (Byte)(Convert.ToByte(originalData[i - 1, j, 0] > centerByte) << 6);
+                    code |= (Byte)(Convert.ToByte(originalData[i - 1, j + 1, 0] > centerByte) << 5);
+                    code |= (Byte)(Convert.ToByte(originalData[i, j + 1, 0] > centerByte) << 4);
+                    code |= (Byte)(Convert.ToByte(originalData[i + 1, j + 1, 0] > centerByte) << 3);
+                    code |= (Byte)(Convert.ToByte(originalData[i + 1, j, 0] > centerByte) << 2);
+                    code |= (Byte)(Convert.ToByte(originalData[i + 1, j - 1, 0] > centerByte) << 1);
+                    code |= (Byte)(Convert.ToByte(originalData[i, j - 1, 0] > centerByte) << 0);
+                    data[i, j, 0] = code;
                 }
-                else
-                {
-                    irisCode += "1";
-                }
-                CvInvoke.cvResetImageROI(test);
             }
-            Console.WriteLine("Iris code: " + irisCode);*/
+
+            smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\befor" + name + ".jpg");
+            Gray avg = smooth2.GetAverage();
+            smooth2._ThresholdBinary(smooth2.GetAverage(), new Gray(255));
+
+
+            smooth2.Save(@"C:\Users\archie\Desktop\CASIA-IrisV1\gabor" + name + ".jpg");
+
 
 
 
             EmguGrayImageFeatureVector fv = new EmguGrayImageFeatureVector(new System.Drawing.Size(polar.Width, polar.Height));
-            fv.FeatureVector = rotatedPolar.Copy();
+            fv.FeatureVector = smooth2.Copy();
             return fv;
         }
+
 
     }
 }

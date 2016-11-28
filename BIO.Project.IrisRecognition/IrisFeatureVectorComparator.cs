@@ -21,8 +21,8 @@ namespace BIO.Project.IrisRecognition {
             Image<Gray, byte> m2 = templated.FeatureVector.Clone();
 
             //Marek
-            /*BitArray m1FvBits = this.createFeatureVectorBits(m1);
-            BitArray m2FvBits = this.createFeatureVectorBits(m2);*/
+            //BitArray m1FvBits = this.createFeatureVectorBits(m1);
+            //BitArray m2FvBits = this.createFeatureVectorBits(m2);
 
             //Image<Gray, byte> m1c = m1.Resize(4.0, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
             //Image<Gray, byte> m2c = m2.Resize(4.0, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
@@ -45,17 +45,31 @@ namespace BIO.Project.IrisRecognition {
             byte[,,] data = m1.Data;
 
             //Marek
-            /*m1FvBits.Xor(m2FvBits);
+
+
+
             //Treba dorobit for, a shiftovanie / rotovanie tych poli a ziskanie najnizsej hammingovej vzdialenosti
-            int hammingDistance = this.countOfBitsSet(m1FvBits);*/
+            /*
+            int lowestHammingDistance = m1FvBits.Length;
+            for ( int i = 0;  i < m1FvBits.Length; i++)
+            {
+                BitArray bitsAfterXor = new BitArray(m1FvBits);
+                bitsAfterXor.Xor(m2FvBits);
+                int hammingDistance = this.countOfBitsSet(bitsAfterXor);
+                if(lowestHammingDistance > hammingDistance) 
+                    lowestHammingDistance = hammingDistance;
+                rotateBits(m1FvBits);
+            }
+
+            return new MatchingScore(lowestHammingDistance);*/
 
             //Console.WriteLine(hammingDistance);
 
-            for (int i = m1.Rows - 1; i >= 0; i--){
+            /*for (int i = m1.Rows - 1; i >= 0; i--){
             for (int j = m1.Cols - 1; j >= 0; j--){
                 sum += data[i,j,0];
             }
-            }
+            }*/
 
             /************************************************************/
             String extractedIrisCode = this.getIrisCode(extracted);
@@ -150,6 +164,18 @@ namespace BIO.Project.IrisRecognition {
                     counter += buffer[x] & 1;
 
             return counter;
+        }
+
+        public BitArray rotateBits(BitArray bits)
+        {
+            bool firstBit = bits.Get(0);
+            
+            for(int i = 1; i < bits.Length; i++)
+            {
+                bits[i - 1] = bits[i];
+            }
+            bits[bits.Length-1] = firstBit;
+            return bits;
         }
 
         private String getIrisCode(EmguGrayImageFeatureVector vector)
