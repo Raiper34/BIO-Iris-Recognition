@@ -260,14 +260,19 @@ namespace BIO.Project.IrisRecognition
             rotatedPolar.Data = data;
 
             rotatedPolar._EqualizeHist();
+            //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing1_" + name + ".jpg");
+            rotatedPolar._GammaCorrect(1.8d);
+            //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing2_" + name + ".jpg");
 
             //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing3_" + name + ".jpg");
 
-            Image<Gray, Byte> smooth2 = rotatedPolar.Not();
+            //Image<Gray, Byte> smooth2 = rotatedPolar.Not();
             //smooth2 = smooth.SmoothGaussian(9);
 
-            CvInvoke.cvInRangeS(smooth2, new MCvScalar(0, 0, 0), new MCvScalar(170, 170, 170), rotatedPolar);
-            //rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing4_" + name + ".jpg");
+            //CvInvoke.cvInRangeS(smooth2, new MCvScalar(0, 0, 0), new MCvScalar(170, 170, 170), rotatedPolar);
+
+            Emgu.CV.CvInvoke.cvThreshold(rotatedPolar, rotatedPolar, 100, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_OTSU);
+            rotatedPolar.Save(@"d:\db\face\2D\JAFFE\out\processing4_" + name + ".jpg");
 
 
             //Iris code generation
