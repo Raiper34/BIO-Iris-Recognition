@@ -18,7 +18,7 @@ namespace BIO.Project.IrisRecognition
         }
 
         public override Framework.Core.Database.IDatabaseCreator<StandardRecord<StandardRecordData>> getDatabaseCreator() {
-            return new IrisDatabaseCreator(@"C:\Users\archie\Desktop\CASIA-IrisV1"); // !!!!!!!!!!!!! PATH TO PICTURES FOLDER !!!!!!!!!!!!!!!!!!!!!
+            return new IrisDatabaseCreator(@"C:\Users\raipe\Desktop\CASIA-IrisV1"); // !!!!!!!!!!!!! PATH TO PICTURES FOLDER !!!!!!!!!!!!!!!!!!!!!
         }
 
         protected override Framework.Core.Evaluation.Block.IBlockEvaluatorSettings<StandardRecord<StandardRecordData>, EmguGrayImageInputData> getEvaluatorSettings() {
