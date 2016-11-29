@@ -46,7 +46,7 @@ namespace BIO.Project.IrisRecognition {
 
         //Selector
         private Framework.Extensions.Standard.Comparator.IScoreSelector createScoreSelector() {
-            return new BIO.Framework.Extensions.Standard.Comparator.MinScoreSelector(); /////////////////////////////////////////////
+            return new BIO.Framework.Extensions.Standard.Comparator.MinScoreSelector();
         }
     }
 

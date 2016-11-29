@@ -19,75 +19,8 @@ namespace BIO.Project.IrisRecognition {
         public MatchingScore computeMatchingScore(EmguGrayImageFeatureVector extracted, EmguGrayImageFeatureVector templated) {
             Image<Gray, byte> m1 = extracted.FeatureVector.Clone();
             Image<Gray, byte> m2 = templated.FeatureVector.Clone();
-            
-            double sum = 0;
-            byte[,,] data = m1.Rotate(90, new Gray(255), false).Data;
-
-            Matrix<byte> transaltionMatrix = new Matrix<byte>(1,1);
-            transaltionMatrix.SetZero();
-
-
-            BitArray bitsExtracted = new BitArray(m1.Bytes);
-            BitArray bitsXored = new BitArray(m1.Bytes);
-            BitArray bitsTemplated = new BitArray(m2.Bytes);
-
-            bitsXored.Xor(bitsTemplated);
-            double maxSum = countOfBitsSet(bitsXored);
-            sum = maxSum;
-            for (int i = 1; i < m1.Cols; i++)
-            {
-                Array.Copy(m1.Data, 0, m1.Data, 1, m1.Cols * m1.Rows -1 );
-                Array.Copy(m1.Data, m1.Cols * m1.Rows - 1, m1.Data, 0, 1);
-
-                bitsXored = new BitArray(m1.Bytes);
-                bitsXored.Xor(bitsTemplated);
-                sum = countOfBitsSet(bitsXored);
-
-                if (sum < maxSum)
-                    maxSum = sum;
-            }
-            
-
+            double maxSum = this.hammingDistance(m1, m2);
             return new MatchingScore(maxSum);
-        }
-
-        private BitArray createFeatureVectorBits(Image<Gray, Byte> m1)
-        {
-            IntPtr complexImage = CvInvoke.cvCreateImage(m1.Size, Emgu.CV.CvEnum.IPL_DEPTH.IPL_DEPTH_32F, 2);
-            CvInvoke.cvSetZero(complexImage);
-            CvInvoke.cvSetImageCOI(complexImage, 1);
-            CvInvoke.cvCopy(m1.Convert<Gray, float>(), complexImage, IntPtr.Zero);
-            CvInvoke.cvSetImageCOI(complexImage, 0);
-            Matrix<float> dft = new Matrix<float>(m1.Rows, m1.Cols, 2);
-            CvInvoke.cvDFT(complexImage, dft, Emgu.CV.CvEnum.CV_DXT.CV_DXT_FORWARD, 0);
-
-            Image<Gray, float> outReal = new Image<Gray, float>(m1.Size);
-            Image<Gray, float> outImg = new Image<Gray, float>(m1.Size);
-
-            CvInvoke.cvSplit(dft, outReal, outImg, IntPtr.Zero, IntPtr.Zero);
-
-            //FOr cely obrazok, zistit znamienko img a real podla toho urob 1,2,3,4
-            BitArray fVector = new BitArray(m1.Rows * m1.Cols * 2);
-
-            float[,,] dataImg = outReal.Data;
-            float[,,] dataReal = outImg.Data;
-
-            for (int i = 0; i < m1.Rows; i++)
-            {
-
-                for (int j = 0; j < m1.Cols; j++)
-                {
-                    if (dataImg[i, j, 0] < 0)
-                        fVector.Set(2 * (i * m1.Rows + j), false);
-                    else
-                        fVector.Set(2 * (i * m1.Rows + j), true);
-                    if (dataReal[i, j, 0] < 0)
-                        fVector.Set(2 * (i * m1.Rows + j) + 1, false);
-                    else
-                        fVector.Set(2 * (i * m1.Rows + j) + 1, true);
-                }
-            }
-            return fVector;
         }
 
 
@@ -117,48 +50,35 @@ namespace BIO.Project.IrisRecognition {
             return count;
         }
 
-        private String getIrisCode(EmguGrayImageFeatureVector vector)
+        public double hammingDistance(Image<Gray, byte> m1, Image<Gray, byte> m2)
         {
-            Image<Gray, byte> rotatedPolar = vector.FeatureVector.Clone();
-            //Iris code generation
-            String irisCode = "";
-            Image<Gray, Byte> area = rotatedPolar.Copy();
-            String pixelValue = "0";
-            int blackCounter = 0;
-            int whiteCounter = 0;
-            for (int i = 0; i < 70; i++)
+            double sum = 0;
+            byte[,,] data = m1.Rotate(90, new Gray(255), false).Data;
+
+            //Matrix<byte> transaltionMatrix = new Matrix<byte>(1,1);
+            //transaltionMatrix.SetZero();
+
+
+            BitArray bitsExtracted = new BitArray(m1.Bytes);
+            BitArray bitsXored = new BitArray(m1.Bytes);
+            BitArray bitsTemplated = new BitArray(m2.Bytes);
+
+            bitsXored.Xor(bitsTemplated);
+            double maxSum = countOfBitsSet(bitsXored);
+            sum = maxSum;
+            for (int i = 1; i < m1.Cols; i++)
             {
-                blackCounter = 0;
-                whiteCounter = 0;
-                CvInvoke.cvSetImageROI(rotatedPolar, new System.Drawing.Rectangle(new System.Drawing.Point(4 * i, 0), new System.Drawing.Size(4, area.Height)));
-                CvInvoke.cvCopy(rotatedPolar, rotatedPolar, new IntPtr(0));
-                area = rotatedPolar.Copy();
-                for (int x = 0; x < 4; x++)
-                {
-                    for (int y = 0; y < area.Height; y++)
-                    {
-                        pixelValue = area.Data[y, x, 0].ToString();
-                        if (Int32.Parse(pixelValue) > 170)
-                        {
-                            blackCounter++;
-                        }
-                        else
-                        {
-                            whiteCounter++;
-                        }
-                    }
-                }
-                if (blackCounter > whiteCounter)
-                {
-                    irisCode += "0";
-                }
-                else
-                {
-                    irisCode += "1";
-                }
-                CvInvoke.cvResetImageROI(rotatedPolar);
+                Array.Copy(m1.Data, 0, m1.Data, 1, m1.Cols * m1.Rows - 1);
+                Array.Copy(m1.Data, m1.Cols * m1.Rows - 1, m1.Data, 0, 1);
+
+                bitsXored = new BitArray(m1.Bytes);
+                bitsXored.Xor(bitsTemplated);
+                sum = countOfBitsSet(bitsXored);
+
+                if (sum < maxSum)
+                    maxSum = sum;
             }
-            return irisCode;
+            return maxSum;
         }
         
     }
