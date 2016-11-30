@@ -16,24 +16,26 @@ namespace BIO.Project.IrisRecognition
 {
     class IrisFeatureVectorExtractor : IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> {
 
+        /**
+         * Method to 
+         */
         public EmguGrayImageFeatureVector extractFeatureVector(EmguGrayImageInputData input) {
-            var test = input.Image.Clone();
-            var test2 = input.Image.Clone();
+            var img = input.Image.Clone();
             var original = input.Image.Clone();
             
             Image<Gray, Byte> mask = new Image<Gray, Byte>(input.Image.Width, input.Image.Height);
 
-            //Iris
-            Image<Gray, Byte> smooth = this.getIrisForContours(test);
-            CvInvoke.cvInRangeS(smooth, new MCvScalar(0, 0, 0), new MCvScalar(70, 70, 70), test2);
+            //Pupil
+            Image<Gray, Byte> smooth = this.getPupilForContours(img);
+            CvInvoke.cvInRangeS(smooth, new MCvScalar(0, 0, 0), new MCvScalar(70, 70, 70), img);
 
             //Contours
-            CircleF modifiedCircle = contourDetectionOfPupill(test2, original);
+            CircleF modifiedCircle = contourDetectionOfPupill(img, original);
             mask.Draw(modifiedCircle, new Gray(255), -1);
-            test2 = original & mask;
+            img = original & mask;
 
             //Polar mapping
-            Image<Gray, Byte> polar = test2.LogPolar(new System.Drawing.PointF(modifiedCircle.Center.X, modifiedCircle.Center.Y), 65, Emgu.CV.CvEnum.INTER.CV_INTER_AREA, Emgu.CV.CvEnum.WARP.CV_WARP_DEFAULT);
+            Image<Gray, Byte> polar = img.LogPolar(new System.Drawing.PointF(modifiedCircle.Center.X, modifiedCircle.Center.Y), 65, Emgu.CV.CvEnum.INTER.CV_INTER_AREA, Emgu.CV.CvEnum.WARP.CV_WARP_DEFAULT);
             Image<Gray, Byte> rotatedPolar = polar.Rotate(270, new Gray(255), false);
             var rotatedPolarOriginal = rotatedPolar.Clone();
 
@@ -62,7 +64,10 @@ namespace BIO.Project.IrisRecognition
             return fv;
         }
 
-        public Image<Gray, Byte> getIrisForContours(Image<Gray, Byte> img)
+        /**
+         * Get pupillimage for next image processing
+         */ 
+        public Image<Gray, Byte> getPupilForContours(Image<Gray, Byte> img)
         {
             img._EqualizeHist();
             Emgu.CV.CvInvoke.cvThreshold(img, img, 30, 255, Emgu.CV.CvEnum.THRESH.CV_THRESH_BINARY);
@@ -81,6 +86,9 @@ namespace BIO.Project.IrisRecognition
             return img.Not();
         }
 
+        /**
+         * Find contours in preprocesed image
+         */
         public CircleF contourDetectionOfPupill(Image<Gray, Byte> img, Image<Gray, Byte> originalImg)
         {
             MCvMoments momets;
@@ -120,6 +128,9 @@ namespace BIO.Project.IrisRecognition
             return modifiedCircle;
         }
 
+        /**
+         * Normalize image
+         */ 
         public byte[,,] Normalization(Image<Gray, Byte> rotatedPolar, byte[,,] data, byte[,,] originalData, int heigthOfNormalizedIris, int widthOfNormalizedIris)
         {
             int rows = rotatedPolar.Rows - 1;
@@ -149,9 +160,12 @@ namespace BIO.Project.IrisRecognition
             return data;
         }
 
+        /**
+         *  Get or count LBP from image 
+         *  Inspired by:http://www.bytefish.de/blog/local_binary_patterns/
+         */
         public byte[,,] getLBP(Image<Gray, Byte> img, byte[,,] originalData, byte[,,] data)
-        {
-            //Inspired by:http://www.bytefish.de/blog/local_binary_patterns/
+        { 
             for (int i = 1; i < img.Rows - 1; i++)
             {
                 for (int j = 1; j < img.Cols - 1; j++)

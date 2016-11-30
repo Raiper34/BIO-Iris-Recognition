@@ -16,6 +16,9 @@ namespace BIO.Project.IrisRecognition {
     
     class IrisFeatureVectorComparator : IFeatureVectorComparator<EmguGrayImageFeatureVector, EmguGrayImageFeatureVector> {
 
+        /**
+         * Method to compute matching score from extracted image feature vector and template image feature vector 
+         */
         public MatchingScore computeMatchingScore(EmguGrayImageFeatureVector extracted, EmguGrayImageFeatureVector templated) {
             Image<Gray, byte> m1 = extracted.FeatureVector.Clone();
             Image<Gray, byte> m2 = templated.FeatureVector.Clone();
@@ -24,8 +27,11 @@ namespace BIO.Project.IrisRecognition {
         }
 
 
-        //Source: http://stackoverflow.com/questions/5063178/counting-bits-set-in-a-net-bitarray-class
-        public static Int32 countOfBitsSet(BitArray bitArray)
+        /*
+         * Method that count how much bits are set to 1
+         * Source: http://stackoverflow.com/questions/5063178/counting-bits-set-in-a-net-bitarray-class
+         */ 
+        private static Int32 countOfBitsSet(BitArray bitArray)
         {
 
             Int32[] ints = new Int32[(bitArray.Count >> 5) + 1];
@@ -50,28 +56,31 @@ namespace BIO.Project.IrisRecognition {
             return count;
         }
 
-        public double hammingDistance(Image<Gray, byte> m1, Image<Gray, byte> m2)
+        /**
+         * Method thah count hamming distance from two images m1 and m2
+         **/
+        private double hammingDistance(Image<Gray, byte> img1, Image<Gray, byte> img2)
         {
             double sum = 0;
-            byte[,,] data = m1.Rotate(90, new Gray(255), false).Data;
+            byte[,,] data = img1.Rotate(90, new Gray(255), false).Data;
 
             //Matrix<byte> transaltionMatrix = new Matrix<byte>(1,1);
             //transaltionMatrix.SetZero();
 
 
-            BitArray bitsExtracted = new BitArray(m1.Bytes);
-            BitArray bitsXored = new BitArray(m1.Bytes);
-            BitArray bitsTemplated = new BitArray(m2.Bytes);
+            BitArray bitsExtracted = new BitArray(img1.Bytes);
+            BitArray bitsXored = new BitArray(img1.Bytes);
+            BitArray bitsTemplated = new BitArray(img2.Bytes);
 
             bitsXored.Xor(bitsTemplated);
             double maxSum = countOfBitsSet(bitsXored);
             sum = maxSum;
-            for (int i = 1; i < m1.Cols; i++)
+            for (int i = 1; i < img1.Cols; i++)
             {
-                Array.Copy(m1.Data, 0, m1.Data, 1, m1.Cols * m1.Rows - 1);
-                Array.Copy(m1.Data, m1.Cols * m1.Rows - 1, m1.Data, 0, 1);
+                Array.Copy(img1.Data, 0, img1.Data, 1, img1.Cols * img1.Rows - 1);
+                Array.Copy(img1.Data, img1.Cols * img1.Rows - 1, img1.Data, 0, 1);
 
-                bitsXored = new BitArray(m1.Bytes);
+                bitsXored = new BitArray(img1.Bytes);
                 bitsXored.Xor(bitsTemplated);
                 sum = countOfBitsSet(bitsXored);
 
