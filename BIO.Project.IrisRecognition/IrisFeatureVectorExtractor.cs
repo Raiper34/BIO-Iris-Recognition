@@ -17,7 +17,7 @@ namespace BIO.Project.IrisRecognition
     class IrisFeatureVectorExtractor : IFeatureVectorExtractor<EmguGrayImageInputData, EmguGrayImageFeatureVector> {
 
         /**
-         * Method to 
+         * Method to  extract feature vector
          */
         public EmguGrayImageFeatureVector extractFeatureVector(EmguGrayImageInputData input) {
             var img = input.Image.Clone();

@@ -1,5 +1,0 @@
-C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework\bin\x86\Debug\BIO.Framework.dll
-C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework\bin\x86\Debug\BIO.Framework.pdb
-C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework\bin\x86\Debug\StructureMap.dll
-C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework\obj\x86\Debug\BIO.Framework.dll
-C:\Users\raipe\Source\Repos\BIO-Projekt\BIO.Framework\obj\x86\Debug\BIO.Framework.pdb
